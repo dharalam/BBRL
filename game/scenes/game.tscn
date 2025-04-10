@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqggefhc4kx6y"]
+
+[ext_resource type="PackedScene" uid="uid://xava7rd2hipt" path="res://scenes/Player.tscn" id="1_tacwk"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vpaku"]
+
+[node name="Game" type="Node2D"]
+position = Vector2(557, 582)
+
+[node name="Player" parent="." instance=ExtResource("1_tacwk")]
+position = Vector2(-150, 375)
+
+[node name="WorldBoundries" type="StaticBody2D" parent="."]
+position = Vector2(-557, -582)
+
+[node name="LeftBorder" type="CollisionShape2D" parent="WorldBoundries"]
+position = Vector2(0, 502)
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_vpaku")
+debug_color = Color(0.431373, 0.6, 0.0901961, 0.419608)
+
+[node name="RightBorder" type="CollisionShape2D" parent="WorldBoundries"]
+position = Vector2(800, 502)
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_vpaku")
+debug_color = Color(0.431373, 0.6, 0.0901961, 0.419608)
+
+[node name="TopBorder" type="CollisionShape2D" parent="WorldBoundries"]
+position = Vector2(400, 0)
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_vpaku")
+debug_color = Color(0.431373, 0.6, 0.0901961, 0.419608)

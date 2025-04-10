@@ -1,10 +1,66 @@
-[gd_scene load_steps=2 format=3 uid="uid://xava7rd2hipt"]
+[gd_scene load_steps=8 format=3 uid="uid://xava7rd2hipt"]
+
+[ext_resource type="Texture2D" uid="uid://cqv71owpp7vgm" path="res://assets/bbrl_skeleton_assets.png" id="1_bhgkm"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_prd8q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4w24j"]
+size = Vector2(126, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgi8a"]
+atlas = ExtResource("1_bhgkm")
+region = Rect2(32, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ksvpw"]
+atlas = ExtResource("1_bhgkm")
+region = Rect2(64, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6u78"]
+atlas = ExtResource("1_bhgkm")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mcqfd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgi8a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ksvpw")
+}],
+"loop": true,
+"name": &"running",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m6u78")
+}],
+"loop": true,
+"name": &"standing",
+"speed": 5.0
+}]
 
 [node name="Player" type="CharacterBody2D"]
+position = Vector2(0, -38)
+script = ExtResource("1_prd8q")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -33.5)
 shape = SubResource("RectangleShape2D_4w24j")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Legs" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 22)
+sprite_frames = SubResource("SpriteFrames_mcqfd")
+animation = &"standing"
+autoplay = "standing"
+
+[node name="Body" type="Sprite2D" parent="."]
+texture = ExtResource("1_bhgkm")
+region_enabled = true
+region_rect = Rect2(32, 64, 32, 32)
+
+[node name="Coffin" type="Sprite2D" parent="."]
+position = Vector2(0, -30)
+texture = ExtResource("1_bhgkm")
+region_enabled = true
+region_rect = Rect2(0, 0, 128, 32)
