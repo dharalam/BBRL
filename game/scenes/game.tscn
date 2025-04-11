@@ -1,14 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqggefhc4kx6y"]
+[gd_scene load_steps=7 format=3 uid="uid://dqggefhc4kx6y"]
 
 [ext_resource type="PackedScene" uid="uid://xava7rd2hipt" path="res://scenes/Player.tscn" id="1_tacwk"]
+[ext_resource type="PackedScene" uid="uid://c2ptd6oa7qwex" path="res://scenes/Ball.tscn" id="2_ot2aj"]
+[ext_resource type="PackedScene" uid="uid://cvvob3lh8i4s8" path="res://scenes/DropZone.tscn" id="3_yeh0f"]
+[ext_resource type="Script" path="res://scripts/GameManager.gd" id="4_2n8hy"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vpaku"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ir6j0"]
+size = Vector2(801, 40)
 
 [node name="Game" type="Node2D"]
 position = Vector2(557, 582)
 
+[node name="GameManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_2n8hy")
+
 [node name="Player" parent="." instance=ExtResource("1_tacwk")]
-position = Vector2(-150, 375)
+position = Vector2(-147, 381)
 
 [node name="WorldBoundries" type="StaticBody2D" parent="."]
 position = Vector2(-557, -582)
@@ -18,6 +28,11 @@ position = Vector2(0, 502)
 rotation = 1.5708
 shape = SubResource("WorldBoundaryShape2D_vpaku")
 debug_color = Color(0.431373, 0.6, 0.0901961, 0.419608)
+
+[node name="BottomBorder" type="CollisionShape2D" parent="WorldBoundries"]
+position = Vector2(407, 1000)
+shape = SubResource("WorldBoundaryShape2D_vpaku")
+debug_color = Color(0.168627, 0.627451, 0.396078, 0.419608)
 
 [node name="RightBorder" type="CollisionShape2D" parent="WorldBoundries"]
 position = Vector2(800, 502)
@@ -30,3 +45,14 @@ position = Vector2(400, 0)
 rotation = 3.14159
 shape = SubResource("WorldBoundaryShape2D_vpaku")
 debug_color = Color(0.431373, 0.6, 0.0901961, 0.419608)
+
+[node name="Ball" parent="." instance=ExtResource("2_ot2aj")]
+position = Vector2(-147, 191)
+
+[node name="DropZone" parent="." instance=ExtResource("3_yeh0f")]
+position = Vector2(-305, 329)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DropZone"]
+position = Vector2(150.5, 67)
+shape = SubResource("RectangleShape2D_ir6j0")
+debug_color = Color(0.960784, 0.027451, 0.505882, 0.419608)

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvvob3lh8i4s8"]
+
+[ext_resource type="Script" path="res://scripts/DropZone.gd" id="1_bfmoc"]
+
+[node name="DropZone" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_bfmoc")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
