@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c2ptd6oa7qwex"]
 
-[ext_resource type="Script" path="res://scripts/Ball.gd" id="1_ce5ld"]
+[ext_resource type="Script" uid="uid://dgskkqrffp4tb" path="res://scripts/Ball.gd" id="1_ce5ld"]
 [ext_resource type="Texture2D" uid="uid://cqv71owpp7vgm" path="res://assets/bbrl_skeleton_assets.png" id="2_b1awt"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qpb11"]
