@@ -4,6 +4,8 @@ extends Node
 var ballScene = preload("res://scenes/Ball.tscn")
 var activeBalls = 1
 var remainingBalls = 3 
+@onready var game: Control = $".."
+signal update_balls
 
 func _ready():
 	pass # Replace with function body.
@@ -16,8 +18,12 @@ func _process(delta):
 func ballDrop():
 	activeBalls = activeBalls - 1
 	if activeBalls == 0:
-		remainingBalls = remainingBalls - 1
+		remainingBalls -= 1
 		activeBalls = 1
+		update_balls.emit()
+		print(remainingBalls)
 		var instance = ballScene.instantiate()
-		add_child(instance)
+		game.call_deferred("add_child", instance)
+	if remainingBalls == 0:
+		pass #TODO: Game over logic
 	

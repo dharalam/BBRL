@@ -1,10 +1,11 @@
 extends Area2D
 
 @onready var gm = %GameManager
+@onready var collision_shape = $CollisionShape2D
 
 func _on_body_entered(body):
-	print("skull drop")
+	#print("skull drop")
 	gm.ballDrop()
 	#get_tree().reload_current_scene()
-	body.queue_free()
+	body.call_deferred("free")
 	
