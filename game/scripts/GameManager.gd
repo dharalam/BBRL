@@ -4,6 +4,8 @@ extends Node
 var ballScene = preload("res://scenes/Ball.tscn")
 var activeBalls = 1
 var remainingBalls = 3 
+var souls = 0
+
 @onready var game: Control = $".."
 signal update_balls
 
