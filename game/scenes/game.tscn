@@ -1,9 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dqggefhc4kx6y"]
+[gd_scene load_steps=9 format=3 uid="uid://dh1ys8y6ccy7y"]
 
 [ext_resource type="PackedScene" uid="uid://xava7rd2hipt" path="res://scenes/Player.tscn" id="1_tacwk"]
 [ext_resource type="PackedScene" uid="uid://c2ptd6oa7qwex" path="res://scenes/Ball.tscn" id="2_ot2aj"]
-[ext_resource type="Script" uid="uid://d3qhppgllif00" path="res://scripts/VBoxR.gd" id="2_s0nni"]
-[ext_resource type="Script" uid="uid://mh2uf0bdcire" path="res://scripts/VBoxL.gd" id="3_aug50"]
+[ext_resource type="Script" path="res://scripts/VBoxR.gd" id="2_s0nni"]
+[ext_resource type="Script" path="res://scripts/VBoxL.gd" id="3_aug50"]
 [ext_resource type="PackedScene" uid="uid://cvvob3lh8i4s8" path="res://scenes/DropZone.tscn" id="3_yeh0f"]
 [ext_resource type="Script" uid="uid://cgbiqop2dyrpj" path="res://scripts/GameManager.gd" id="4_2n8hy"]
 
