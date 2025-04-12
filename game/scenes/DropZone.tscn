@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://btmx1ag8gurjy" path="res://scripts/DropZone.gd" id="1_bfmoc"]
 
 [node name="DropZone" type="Area2D"]
-collision_mask = 2
+collision_mask = 6
 script = ExtResource("1_bfmoc")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

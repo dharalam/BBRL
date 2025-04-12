@@ -69,9 +69,6 @@ color = Color(0.201527, 0.201527, 0.201527, 1)
 [node name="Player" parent="." instance=ExtResource("1_tacwk")]
 position = Vector2(-147, 381)
 
-[node name="Ball" parent="." instance=ExtResource("2_ot2aj")]
-position = Vector2(-147, 191)
-
 [node name="WorldBoundries" type="StaticBody2D" parent="."]
 position = Vector2(-464, -583)
 
@@ -111,6 +108,9 @@ debug_color = Color(0.960784, 0.027451, 0.505882, 0.419608)
 position = Vector2(-466, -506)
 
 [node name="BallContainer" type="Node2D" parent="."]
+
+[node name="Ball" parent="BallContainer" instance=ExtResource("2_ot2aj")]
+position = Vector2(-147, 191)
 
 [node name="SoulContainer" type="Node2D" parent="."]
 position = Vector2(-466, -506)

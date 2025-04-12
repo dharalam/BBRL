@@ -17,6 +17,9 @@ var ballLevel = 0
 var currentLevel = 0 
 var souls = 0
 
+var activeCD := 10.0 #seconds?
+var tsA := 0.0 #time since active
+
 var damageArr = [2, 4, 7, 14]
 var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge 
 
@@ -78,7 +81,37 @@ func create_row():
 func _ready():
 	randomize()
 	create_row()
+	
+func _process(delta):
+	tsA = tsA + delta
+	if Input.is_action_just_pressed("active"):
+		_handle_spacebar()
 
+func useActive():
+	print("Using Active!\n")
+
+func _handle_spacebar(): 
+	if _all_balls_flying():
+		if tsA >= activeCD:
+			tsA = 0.0
+			useActive()
+		else:
+			print("active not ready yet")
+	else:
+		print("launching balls")
+		launch_ball_if_needed()
+
+func launch_ball_if_needed():
+	for ball in ball_container.get_children():
+		if not ball.isBallFlying():
+			ball.launch_ball()	
+	
+func _all_balls_flying() -> bool:
+	for ball in ball_container.get_children():
+		if not ball.isBallFlying():
+			return false
+	return true
+	
 func ballDrop():
 	activeBalls = activeBalls - 1
 	if activeBalls == 0:
@@ -105,3 +138,5 @@ func increaseBombChance():
 
 func increaseChargeChance():
 	chanceArr[2] = chanceArr[2] + 3 
+	
+	

@@ -20,7 +20,13 @@ func _ready():
 func _enter_tree() -> void:
 	gm = get_tree().root.get_node("Game/GameManager")
 	
-	
+func launch_ball():
+	flying = true 
+	move_velocity.y = -1
+	move_velocity.x = player.direction
+	var angle := move_velocity.angle_to_point(position)
+	self.rotation = angle			
+
 func _physics_process(delta):
 	if flying:
 		var collision_object = move_and_collide(move_velocity * speed * delta)
@@ -35,19 +41,11 @@ func _physics_process(delta):
 			#Get Collider
 			var obj = collision_object.get_collider()
 			if obj is Brick:
-			#if obj.has_method("takeDamage"):
-				obj.takeDamage(damage)
-			#print(obj.takeDamage(5))
+				obj.takeDamage(gm.damageArr[gm.ballLevel])
 	else:
 		position.x = player.position.x
-		if Input.is_action_just_pressed("active"):
-			flying = true 
-			move_velocity.y = -1
-			move_velocity.x = player.direction
-			var angle := move_velocity.angle_to_point(position)
-			self.rotation = angle			
 			
-func isBallFlying(): #for determining if space bar is free for active power
+func isBallFlying():
 	return flying
 
 func ballCollision(collider) -> Vector2:
