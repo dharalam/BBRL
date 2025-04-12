@@ -9,14 +9,21 @@ const ROWS_PER_REGION = 12
 @onready var player = $"../Player"
 var ballScene = preload("res://scenes/Ball.tscn")
 var RowScene = preload("res://scenes/Row.tscn")
+
 var activeBalls = 1
 var remainingBalls = 3 
-var souls = 0
 var ballLevel = 0
+
+var currentLevel = 0 
+var souls = 0
+
 var damageArr = [2, 4, 7, 14]
+var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge 
+
 var remainingBricks = BRICKS_PER_REGION
 var remainingRows = ROWS_PER_REGION 
-var currentLevel = 0 
+
+
 
 signal update_balls
 
@@ -26,11 +33,13 @@ func create_row():
 	for row in rows_to_manage:
 		row.move_down()
 		
-	#Generate a new row with a certain number (within threshold) of bricks
+	#Generate a new row, set the number of bricks to be some amount
 	var row = RowScene.instantiate()
 	row.rowType = currentLevel
 	var rc = remainingBricks / remainingRows + randi_range(-2, 2)
 	
+	#if on the last row set it to the number of remaing
+	#otherwise check that the amount of bricks were spawning is within bounds
 	if remainingRows == 1:
 		rc = remainingBricks 
 	elif rc <= 0:
@@ -38,16 +47,29 @@ func create_row():
 	elif rc > 12:
 		rc = 12 
 	
-	print("RC: " + str(rc) + "\nRR: " + str(remainingRows) + "\nRB: " + str(remainingBricks) + "\nBPR: " + str(remainingBricks / remainingRows))
+	#Check if a shop spawn, if not increase odds on next row 
+	var rand := randi() % 100
+	if rand < chanceArr[0]:
+		row.shopRow = true
+		chanceArr[0] = -10 #negative odds prevent back to back shop spawns
+	else:
+		chanceArr[0] = chanceArr[0] + 15 
+		
+	#Set the chance of bombs/charges, and the number of bricks in the row
+	row.bombChance = chanceArr[1] 
+	row.chargeChance = chanceArr[2]
 	row.rowBricks = rc
 	row_container.add_child(row)
 	row.position = Vector2(50, 0)  # Set position (relative to row container)
 	
-	#Update Remaining (then check if were done with this stage
+	#Update Remaining bricks/rows
 	remainingBricks = remainingBricks - rc 
 	remainingRows = remainingRows - 1
 	
 	if remainingRows == 0:
+		#if you hit the end of a region without seeing a shop in the last 5 rows you guarentee get one
+		if chanceArr[0] >= 50:
+			chanceArr[0] = 100 
 		remainingRows = ROWS_PER_REGION
 		remainingBricks = BRICKS_PER_REGION
 		if currentLevel < 2: 
@@ -56,7 +78,6 @@ func create_row():
 
 func _ready():
 	randomize()
-	print("RowScene loaded:", RowScene)
 	create_row()
 
 func ballDrop():
@@ -76,3 +97,9 @@ func getBallLevel():
 
 func increaseBallLevel():
 	ballLevel = ballLevel + 1
+
+func increaseBombChance():
+	chanceArr[1] = chanceArr[1] + 2
+
+func increaseChargeChance():
+	chanceArr[2] = chanceArr[2] + 3 

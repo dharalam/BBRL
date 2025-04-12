@@ -5,6 +5,8 @@ class_name Brick
 @onready var brick2: AnimatedSprite2D = $Brick2
 @onready var brick3: AnimatedSprite2D = $Brick3
 @onready var brickShop: AnimatedSprite2D = $BrickShop
+@onready var brickBomb: AnimatedSprite2D = $BrickBomb	
+@onready var brickCharge: AnimatedSprite2D = $BrickCharge
 @onready var hit_box: CollisionShape2D = $HitBox
 var soulContainer
 
@@ -12,7 +14,7 @@ var sprite
 var maxhp = 8
 var hp
 var type = -1
-enum brickTypes {BRICK1, BRICK2, BRICK3, BRICKSHOP, BRICKBOMB}
+enum brickTypes {BRICK1, BRICK2, BRICK3, BRICKSHOP, BRICKBOMB, BRICKCHARGE}
 
 func _ready():
 	if type == -1:
@@ -33,7 +35,10 @@ func _ready():
 			sprite = brickShop
 			maxhp = 4
 		brickTypes.BRICKBOMB:
-			sprite = brickShop
+			sprite = brickBomb
+			maxhp = 4
+		brickTypes.BRICKCHARGE:
+			sprite = brickCharge
 			maxhp = 4
 		_:
 			queue_free()
@@ -45,7 +50,7 @@ func _enter_tree() -> void:
 	soulContainer = get_tree().root.get_node("Game/SoulContainer")
 
 func takeDamage(dmg:float): 
-	if type == brickTypes.BRICKBOMB:
+	if type == brickTypes.BRICKBOMB or type == brickTypes.BRICKCHARGE:
 		dmg = 1
 		
 	hp = hp - dmg
@@ -76,19 +81,22 @@ func breakBrick():
 		soul.position = $".".global_position
 		soul.position.x -= 90
 
-func _on_brick_1_animation_finished() -> void:
-	sprite.visible = false
-	queue_free()
 
-func _on_brick_2_animation_finished() -> void:
-	sprite.visible = false
-	queue_free()
-
-func _on_brick_3_animation_finished() -> void:
+func _on_brick_animation_finished() -> void:
 	sprite.visible = false
 	queue_free()
 
 func _on_brick_shop_animation_finished() -> void:
 	#TODO: do shop things
+	sprite.visible = false
+	queue_free()
+
+func _on_brick_charge_animation_finished() -> void:
+	#TODO: charge the active
+	sprite.visible = false
+	queue_free()
+
+func _on_brick_bomb_animation_finished() -> void:
+	#TODO: damage nearby bricks
 	sprite.visible = false
 	queue_free()
