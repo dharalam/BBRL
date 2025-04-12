@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://b1ali3t5mkavl"]
 
 [ext_resource type="Script" uid="uid://dlm00if8jq1b3" path="res://scripts/souls.gd" id="1_6rt1b"]
-[ext_resource type="Texture2D" uid="uid://dc0wig1knxjsy" path="res://assets/souls.png" id="2_jebhb"]
+[ext_resource type="Texture2D" uid="uid://c5w75d6st1pyx" path="res://assets/souls.png" id="2_jebhb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7butm"]
 size = Vector2(36, 34.25)

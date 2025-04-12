@@ -1,18 +1,10 @@
 extends RigidBody2D
 class_name Ball
 
-<<<<<<< Updated upstream
-var speed = 450
-var move_velocity = Vector2.ZERO
-var flying = false
-
-
-=======
 var speed = 400
 var move_velocity = Vector2.ZERO
 var flying = false
 var damage = 500 
->>>>>>> Stashed changes
 @onready var player = get_tree().root.get_node("Game/Player")
 var gm 
 
@@ -35,21 +27,12 @@ func _physics_process(delta):
 			var angle := move_velocity.angle_to_point(position)
 			self.rotation = angle
 			move_velocity = move_velocity.bounce(collosion_object.get_normal())
-			
-<<<<<<< Updated upstream
-			#Get Collider (to see if its a brick and damage it)
-			var collider = collosion_object.get_collider()
-			if collider is Brick:
-				collider.takeDamage(gm.damageArr[gm.ballLevel])
-=======
 			#Get Collider
 			var obj = collosion_object.get_collider()
 			if obj is Brick:
 			#if obj.has_method("takeDamage"):
 				obj.takeDamage(damage)
 			#print(obj.takeDamage(5))
->>>>>>> Stashed changes
-			
 	else:
 		position.x = player.position.x
 		if Input.is_action_just_pressed("active"):

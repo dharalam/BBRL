@@ -15,15 +15,9 @@ region = Rect2(67, 32, 22, 31)
 scale = Vector2(3, 3)
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="."]
-<<<<<<< Updated upstream
-offset_right = 40.0
-offset_bottom = 40.0
-max_value = 1.0
-=======
 offset_right = 22.0
 offset_bottom = 31.0
 max_value = 2.0
->>>>>>> Stashed changes
 fill_mode = 2
 texture_under = SubResource("AtlasTexture_aa1wr")
 texture_progress = SubResource("AtlasTexture_t8tk4")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=3 uid="uid://cc7s6733snhd3"]
 
-[ext_resource type="Script" path="res://scripts/GameTimer.gd" id="1_r6j7u"]
+[ext_resource type="Script" uid="uid://bg3l5efw1eren" path="res://scripts/GameTimer.gd" id="1_r6j7u"]
 [ext_resource type="Texture2D" uid="uid://fdl8ww5bjpoh" path="res://assets/timer.png" id="2_i0cj7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f8ja5"]
