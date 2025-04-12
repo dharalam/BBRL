@@ -98,6 +98,7 @@ debug_color = Color(0.431373, 0.6, 0.0901961, 0.419608)
 
 [node name="DropZone" parent="." instance=ExtResource("3_yeh0f")]
 position = Vector2(-305, 329)
+collision_layer = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DropZone"]
 position = Vector2(244.25, 70)
@@ -107,6 +108,11 @@ debug_color = Color(0.960784, 0.027451, 0.505882, 0.419608)
 [node name="RowContainer" type="Node2D" parent="."]
 position = Vector2(-466, -506)
 
+<<<<<<< Updated upstream
 [node name="BallContainer" type="Node2D" parent="."]
+=======
+[node name="SoulContainer" type="Node2D" parent="."]
+position = Vector2(-466, -506)
+>>>>>>> Stashed changes
 
 [connection signal="update_balls" from="GameManager" to="Reserve Container" method="_on_game_manager_update_balls"]

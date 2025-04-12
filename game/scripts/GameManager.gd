@@ -55,8 +55,13 @@ func create_row():
 		#Also update the background?
 
 func _ready():
+<<<<<<< Updated upstream
 	randomize()
 	create_row()	
+=======
+	print("RowScene loaded:", RowScene)
+	create_row()
+>>>>>>> Stashed changes
 
 func ballDrop():
 	activeBalls = activeBalls - 1
