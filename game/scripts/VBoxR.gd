@@ -20,6 +20,7 @@ func _ready() -> void:
 	var timer = item_refs[0].get_child(0)
 	var progbar = item_refs[1].get_child(0)
 	timer.timeout.connect(progbar.cycle_completed)
+	progbar.full.connect(game_manager.create_row)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
