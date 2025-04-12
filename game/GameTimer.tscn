@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://cc7s6733snhd3"]
-
-[node name="Node" type="Node"]
-
-[node name="Timer" type="Timer" parent="."]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

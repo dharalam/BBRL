@@ -20,10 +20,9 @@ offset_top = 582.0
 offset_right = 557.0
 offset_bottom = 582.0
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("row_container")]
+[node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("4_2n8hy")
-row_container = NodePath("../RowContainer")
 
 [node name="Reserve Container" type="VBoxContainer" parent="."]
 z_index = 1
@@ -102,8 +101,5 @@ position = Vector2(-305, 329)
 position = Vector2(244.25, 70)
 shape = SubResource("RectangleShape2D_ir6j0")
 debug_color = Color(0.960784, 0.027451, 0.505882, 0.419608)
-
-[node name="RowContainer" type="Node2D" parent="."]
-position = Vector2(-466, -506)
 
 [connection signal="update_balls" from="GameManager" to="Reserve Container" method="_on_game_manager_update_balls"]
