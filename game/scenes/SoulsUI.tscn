@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://c1k1cl2oh08n1"]
+
+[ext_resource type="Script" uid="uid://rxshg07n2a7v" path="res://SoulsUI.gd" id="1_qxmip"]
+[ext_resource type="Texture2D" uid="uid://dc0wig1knxjsy" path="res://assets/souls.png" id="2_fgwq5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7uem"]
+atlas = ExtResource("2_fgwq5")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28pmo"]
+atlas = ExtResource("2_fgwq5")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2np5"]
+atlas = ExtResource("2_fgwq5")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1f2v"]
+atlas = ExtResource("2_fgwq5")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dc1tt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7uem")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_28pmo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2np5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1f2v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="SoulsUI" type="Node2D"]
+scale = Vector2(1.25, 1.25)
+script = ExtResource("1_qxmip")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8.66667, 0)
+sprite_frames = SubResource("SpriteFrames_dc1tt")
+autoplay = "default"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 25.0
+offset_top = -11.0
+offset_right = 57.0
+offset_bottom = 12.0
+horizontal_alignment = 1
+vertical_alignment = 1

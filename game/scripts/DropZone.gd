@@ -5,7 +5,8 @@ extends Area2D
 
 func _on_body_entered(body):
 	#print("skull drop")
-	gm.ballDrop()
+	if body is Ball:
+		gm.ballDrop()
 	#get_tree().reload_current_scene()
 	body.call_deferred("free")
 	

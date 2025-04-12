@@ -1,12 +1,12 @@
 extends RigidBody2D
-
-class_name Brick 
+class_name Brick
 
 @onready var brick1: AnimatedSprite2D = $Brick1
 @onready var brick2: AnimatedSprite2D = $Brick2
 @onready var brick3: AnimatedSprite2D = $Brick3
 @onready var brickShop: AnimatedSprite2D = $BrickShop
 @onready var hit_box: CollisionShape2D = $HitBox
+var soulContainer
 
 var sprite
 var maxhp = 8
@@ -41,6 +41,9 @@ func _ready():
 	hp = maxhp
 	sprite.visible = true
 
+func _enter_tree() -> void:
+	soulContainer = get_tree().root.get_node("Game/SoulContainer")
+
 func takeDamage(dmg:float): 
 	if type == brickTypes.BRICKBOMB:
 		dmg = 1
@@ -62,7 +65,16 @@ func takeDamage(dmg:float):
 func breakBrick():
 	hit_box.disabled = true
 	sprite.play("break")
-	
+	randomize()
+	var drop_soul = randf()
+	if drop_soul <= 1.0:
+		var soul_scene = load("res://scenes/Soul.tscn")
+		var soul = soul_scene.instantiate()
+		soulContainer.add_child(soul)
+		print($".".global_position)
+		print($".".position)
+		soul.position = $".".global_position
+		soul.position.x -= 90
 
 func _on_brick_1_animation_finished() -> void:
 	sprite.visible = false
