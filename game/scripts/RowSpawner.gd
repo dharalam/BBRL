@@ -12,13 +12,24 @@ func _ready():
 	spawn_bricks()
 
 func spawn_bricks():
-	for i in range(rowBricks):
+	var max_slots := 12
+	var brick_width := 64
+	var slots := []
+	
+	while slots.size() < rowBricks:
+		var slot = randi_range(0, max_slots-1)
+		if slot not in slots:
+			slots.append(slot)
+	slots.sort()
+	for slot in slots:
 		var brick = brick_scene.instantiate()
 		brick.type = rowType   # Corresponding bricks
-		brick.position = Vector2(i * 64, 0)  # Adjust spacing as needed
+		var x = slot * brick_width
+		brick.position = Vector2(x, 0)
 		add_child(brick)
 		brick_count += 1
 		brick.tree_exited.connect(_on_brick_removed)
+
 	
 func _on_brick_removed():
 	brick_count -= 1
