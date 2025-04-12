@@ -7,6 +7,7 @@ func _on_body_entered(body):
 	#print("skull drop")
 	if body is Ball:
 		gm.ballDrop()
-	#get_tree().reload_current_scene()
+	if body is Brick:
+		gm.game_over.emit()
 	body.call_deferred("free")
 	

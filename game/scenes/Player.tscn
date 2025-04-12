@@ -1,7 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://xava7rd2hipt"]
+[gd_scene load_steps=9 format=3 uid="uid://xava7rd2hipt"]
 
 [ext_resource type="Texture2D" uid="uid://cqv71owpp7vgm" path="res://assets/bbrl_skeleton_assets.png" id="1_bhgkm"]
 [ext_resource type="Script" uid="uid://dglpi1qsrihuq" path="res://scripts/Player.gd" id="1_prd8q"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_v6fml"]
+bounce = 0.2
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hgi8a"]
 atlas = ExtResource("1_bhgkm")
@@ -41,10 +44,15 @@ animations = [{
 radius = 24.0
 height = 264.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="RigidBody2D"]
 position = Vector2(0, -38)
 collision_layer = 5
 collision_mask = 5
+physics_material_override = SubResource("PhysicsMaterial_v6fml")
+gravity_scale = 0.0
+can_sleep = false
+lock_rotation = true
+freeze_mode = 1
 script = ExtResource("1_prd8q")
 
 [node name="Legs" type="AnimatedSprite2D" parent="."]
@@ -70,4 +78,5 @@ rotation = 1.5708
 scale = Vector2(0.5, 0.5)
 shape = SubResource("CapsuleShape2D_ocivw")
 
-[node name="Node" type="Node" parent="."]
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="." to="." method="_on_body_shape_exited"]

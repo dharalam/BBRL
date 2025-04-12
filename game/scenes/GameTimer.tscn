@@ -114,7 +114,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"Countdown",
-"speed": 0.5
+"speed": 5.0
 }, {
 "frames": [],
 "loop": true,

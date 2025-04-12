@@ -19,6 +19,7 @@ var remainingRows = ROWS_PER_REGION
 var currentLevel = 0 
 
 signal update_balls
+signal game_over
 
 func create_row():
 	#Move all existing row downs
@@ -62,14 +63,17 @@ func _ready():
 func ballDrop():
 	activeBalls = activeBalls - 1
 	if activeBalls == 0:
-		remainingBalls -= 1
-		activeBalls = 1
-		update_balls.emit()
-		print(remainingBalls)
-		var instance = ballScene.instantiate()
-		ball_container.call_deferred("add_child", instance)
-	if remainingBalls == 0:
-		pass #TODO: Game over logic
+		if remainingBalls == 0:
+			game_over.emit()
+			return
+		else:
+			remainingBalls -= 1
+			activeBalls = 1
+			update_balls.emit()
+			print(remainingBalls)
+			var instance = ballScene.instantiate()
+			ball_container.call_deferred("add_child", instance)
+		
 		
 func getBallLevel():
 	return ballLevel

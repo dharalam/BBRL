@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends RigidBody2D
 class_name Paddle
 
 var speed = 250
@@ -7,8 +7,11 @@ var direction = 0
 @onready var body = $Body
 @onready var coffin = $Coffin
 
+func _ready() -> void:
+	linear_velocity = Vector2.ZERO
 
-func _physics_process(delta):
+
+func _process(delta):
 	#velocity = Vector2.ZERO	
 	direction = Input.get_axis("move_left", "move_right")
 	
@@ -27,8 +30,13 @@ func _physics_process(delta):
 		legs.play("running")
 		
 	if direction:
-		velocity.x = direction * speed
+		linear_velocity.x = direction * speed
 	else:
-		velocity.x = move_toward(velocity.x, 0, speed)
+		linear_velocity.x = move_toward(linear_velocity.x, 0, speed)
 
-	move_and_slide()
+
+func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+	freeze = true
+
+func _on_body_shape_exited(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+	freeze = false
