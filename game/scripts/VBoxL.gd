@@ -35,6 +35,7 @@ func create_menu_item() -> void:
 	$".".size.y += 64
 	var divider = HBoxContainer.new()
 	divider.set_size(Vector2(32, 32))
+	divider.alignment = BoxContainer.ALIGNMENT_CENTER
 	add_child(divider)
 	var ball_sprite = Sprite2D.new()
 	ball_sprite.z_index = 1

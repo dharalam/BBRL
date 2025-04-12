@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://dki0xk6do3u6d"]
+
+[ext_resource type="Texture2D" uid="uid://cqv71owpp7vgm" path="res://assets/bbrl_skeleton_assets.png" id="1_1latf"]
+[ext_resource type="Script" uid="uid://bpv6mx2yyaveu" path="res://scripts/block_drop_bar.gd" id="2_ncfp3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aa1wr"]
+atlas = ExtResource("1_1latf")
+region = Rect2(67, 32, 22, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8tk4"]
+atlas = ExtResource("1_1latf")
+region = Rect2(67, 32, 22, 31)
+
+[node name="BlockBar" type="Node2D"]
+scale = Vector2(3, 3)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+max_value = 3.0
+fill_mode = 2
+texture_under = SubResource("AtlasTexture_aa1wr")
+texture_progress = SubResource("AtlasTexture_t8tk4")
+tint_under = Color(0.20871, 0.20871, 0.20871, 1)
+script = ExtResource("2_ncfp3")
