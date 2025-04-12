@@ -35,7 +35,7 @@ func create_row():
 	#Generate a new row, set the number of bricks to be some amount
 	var row = RowScene.instantiate()
 	row.rowType = currentLevel
-	var rc = remainingBricks / remainingRows + randi_range(-2, 2)
+	var rc = round(float(remainingBricks) / remainingRows) + randi_range(-2, 2)
 	
 	#if on the last row set it to the number of remaing
 	#otherwise check that the amount of bricks were spawning is within bounds

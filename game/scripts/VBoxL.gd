@@ -9,10 +9,6 @@ func _ready() -> void:
 		add_spacer(false)
 	#print_tree_pretty()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
 func _on_game_manager_update_balls() -> void:
 	var reserve = game_manager.remainingBalls
 	print(reserve)

@@ -4,7 +4,7 @@ class_name Paddle
 var speed = 250
 var direction = 0 
 @onready var legs = $Legs
-@onready var body = $Body
+@onready var bodySprite = $Body
 @onready var coffin = $Coffin
 
 func _ready() -> void:
@@ -17,11 +17,11 @@ func _process(delta):
 	
 	if direction < 0: 
 		legs.flip_h = false
-		body.flip_h = false
+		bodySprite.flip_h = false
 		coffin.flip_h = false
 	if direction > 0: 
 		legs.flip_h = true
-		body.flip_h = true
+		bodySprite.flip_h = true
 		coffin.flip_h = true
 		
 	if direction == 0:
