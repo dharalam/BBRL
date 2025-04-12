@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://tfmi1rjpcfao"]
+[gd_scene load_steps=10 format=3 uid="uid://tfmi1rjpcfao"]
 
 [ext_resource type="PackedScene" uid="uid://xava7rd2hipt" path="res://scenes/Player.tscn" id="1_tacwk"]
 [ext_resource type="PackedScene" uid="uid://c2ptd6oa7qwex" path="res://scenes/Ball.tscn" id="2_ot2aj"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/VBoxL.gd" id="3_aug50"]
 [ext_resource type="PackedScene" uid="uid://cvvob3lh8i4s8" path="res://scenes/DropZone.tscn" id="3_yeh0f"]
 [ext_resource type="Script" uid="uid://cgbiqop2dyrpj" path="res://scripts/GameManager.gd" id="4_2n8hy"]
+[ext_resource type="Script" uid="uid://dr1jha222skaj" path="res://scenes/game_over.gd" id="7_u5sy4"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vpaku"]
 
@@ -13,6 +14,7 @@
 size = Vector2(812.5, 40)
 
 [node name="Game" type="Control"]
+process_mode = 1
 layout_mode = 3
 anchors_preset = 0
 offset_left = 557.0
@@ -113,4 +115,42 @@ position = Vector2(-466, -506)
 [node name="SoulContainer" type="Node2D" parent="."]
 position = Vector2(-466, -506)
 
+[node name="GameOver" type="CanvasLayer" parent="."]
+process_mode = 2
+script = ExtResource("7_u5sy4")
+
+[node name="PanelContainer" type="PanelContainer" parent="GameOver"]
+offset_left = 315.0
+offset_top = 280.0
+offset_right = 661.0
+offset_bottom = 589.0
+metadata/_edit_group_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="GameOver/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOver/PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="GameOver/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Game Over!"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameOver/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Continue?" type="Button" parent="GameOver/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Continue?"
+
+[node name="Quit Game" type="Button" parent="GameOver/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Quit Game"
+
+[connection signal="game_over" from="GameManager" to="GameOver" method="_on_game_manager_game_over"]
 [connection signal="update_balls" from="GameManager" to="Reserve Container" method="_on_game_manager_update_balls"]
+[connection signal="pressed" from="GameOver/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Continue?" to="GameOver" method="_on_continue_pressed"]
+[connection signal="pressed" from="GameOver/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Quit Game" to="GameOver" method="_on_quit_game_pressed"]

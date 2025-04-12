@@ -504,6 +504,7 @@ animations = [{
 }]
 
 [node name="Brick" type="RigidBody2D"]
+collision_layer = 3
 lock_rotation = true
 freeze = true
 freeze_mode = 1
