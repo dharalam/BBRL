@@ -9,9 +9,10 @@ class_name Brick
 @onready var hit_box: CollisionShape2D = $HitBox
 
 var sprite
-var maxhp = 10
-var hp = maxhp
+var maxhp = 8
+var hp
 var type = -1
+enum brickTypes {BRICK1, BRICK2, BRICK3, BRICKSHOP, BRICKBOMB}
 
 func _ready():
 	if type == -1:
@@ -19,17 +20,31 @@ func _ready():
 		return
 	
 	match type:
-		0: sprite = brick1
-		1: sprite = brick2
-		2: sprite = brick3
-		3: sprite = brickShop
+		brickTypes.BRICK1: 
+			sprite = brick1
+			maxhp = 8 
+		brickTypes.BRICK2: 
+			sprite = brick2
+			maxhp = 14
+		brickTypes.BRICK3: 
+			sprite = brick3
+			maxhp = 22
+		brickTypes.BRICKSHOP: 
+			sprite = brickShop
+			maxhp = 4
+		brickTypes.BRICKBOMB:
+			sprite = brickShop
+			maxhp = 4
 		_:
 			queue_free()
 			return
-	#print("I have successfully been created!")
+	hp = maxhp
 	sprite.visible = true
 
 func takeDamage(dmg:float): 
+	if type == brickTypes.BRICKBOMB:
+		dmg = 1
+		
 	hp = hp - dmg
 	if hp <= 0:
 		breakBrick()
@@ -38,35 +53,30 @@ func takeDamage(dmg:float):
 	
 	if perhp < 0.9 and perhp > 0.7:
 		sprite.play("second")
-	elif perhp <= 0.7 and perhp > 0.5:
+	elif perhp <= 0.7 and perhp >= 0.5:
 		sprite.play("third")
-	elif perhp <= 0.5 and perhp > 0.2:
+	elif perhp < 0.5 and perhp > 0.2:
 		sprite.play("fourth") 
 	
-	print("i took " + str(perhp) +" damage and have this much hp left" + str(hp))
 	
 func breakBrick():
 	hit_box.disabled = true
-	print("Brick Broken")
 	sprite.play("break")
 	
 
 func _on_brick_1_animation_finished() -> void:
-	print("animation done")
 	sprite.visible = false
 	queue_free()
 
 func _on_brick_2_animation_finished() -> void:
-	print("animation done")
 	sprite.visible = false
 	queue_free()
 
 func _on_brick_3_animation_finished() -> void:
-	print("animation done")
 	sprite.visible = false
 	queue_free()
 
 func _on_brick_shop_animation_finished() -> void:
-	print("animation done") #TODO: do shop things
+	#TODO: do shop things
 	sprite.visible = false
 	queue_free()

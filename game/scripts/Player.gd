@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 class_name Paddle
-var speed = 200
+var speed = 250
 var direction = 0 
 @onready var legs = $Legs
 @onready var body = $Body

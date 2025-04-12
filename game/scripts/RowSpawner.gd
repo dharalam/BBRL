@@ -5,14 +5,16 @@ class_name Row
 
 @export var brick_scene: PackedScene  
 var brick_count := 0
+var rowBricks = 0
+var rowType = 0
 
 func _ready():
 	spawn_bricks()
 
 func spawn_bricks():
-	for i in range(12):
+	for i in range(rowBricks):
 		var brick = brick_scene.instantiate()
-		brick.type = 1  # All bricks are of type 1
+		brick.type = rowType   # Corresponding bricks
 		brick.position = Vector2(i * 64, 0)  # Adjust spacing as needed
 		add_child(brick)
 		brick_count += 1

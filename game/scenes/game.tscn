@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://xava7rd2hipt" path="res://scenes/Player.tscn" id="1_tacwk"]
 [ext_resource type="PackedScene" uid="uid://c2ptd6oa7qwex" path="res://scenes/Ball.tscn" id="2_ot2aj"]
 [ext_resource type="Script" uid="uid://d3qhppgllif00" path="res://scripts/VBoxR.gd" id="2_s0nni"]
-[ext_resource type="Script" uid="uid://mh2uf0bdcire" path="res://scripts/VBoxL.gd" id="3_aug50"]
+[ext_resource type="Script" path="res://scripts/VBoxL.gd" id="3_aug50"]
 [ext_resource type="PackedScene" uid="uid://cvvob3lh8i4s8" path="res://scenes/DropZone.tscn" id="3_yeh0f"]
 [ext_resource type="Script" uid="uid://cgbiqop2dyrpj" path="res://scripts/GameManager.gd" id="4_2n8hy"]
 
@@ -20,10 +20,11 @@ offset_top = 582.0
 offset_right = 557.0
 offset_bottom = 582.0
 
-[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("row_container")]
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("row_container", "ball_container")]
 unique_name_in_owner = true
 script = ExtResource("4_2n8hy")
 row_container = NodePath("../RowContainer")
+ball_container = NodePath("../BallContainer")
 
 [node name="Reserve Container" type="VBoxContainer" parent="."]
 z_index = 1
@@ -105,5 +106,7 @@ debug_color = Color(0.960784, 0.027451, 0.505882, 0.419608)
 
 [node name="RowContainer" type="Node2D" parent="."]
 position = Vector2(-466, -506)
+
+[node name="BallContainer" type="Node2D" parent="."]
 
 [connection signal="update_balls" from="GameManager" to="Reserve Container" method="_on_game_manager_update_balls"]
