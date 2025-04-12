@@ -23,8 +23,6 @@ var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge
 var remainingBricks = BRICKS_PER_REGION
 var remainingRows = ROWS_PER_REGION 
 
-
-
 signal update_balls
 signal game_over
 
