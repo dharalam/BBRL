@@ -1,0 +1,109 @@
+[gd_scene load_steps=13 format=3 uid="uid://r84osgdnc4w0"]
+
+[ext_resource type="Script" uid="uid://cr2ddvi8k6ww0" path="res://scripts/Brick.gd" id="1_0fr63"]
+[ext_resource type="Texture2D" uid="uid://cmi0xqvcgo6y6" path="res://assets/tombstones.png" id="1_5l4w1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fr63"]
+atlas = ExtResource("1_5l4w1")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xufbn"]
+atlas = ExtResource("1_5l4w1")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kknv7"]
+atlas = ExtResource("1_5l4w1")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbr65"]
+atlas = ExtResource("1_5l4w1")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x8rgf"]
+atlas = ExtResource("1_5l4w1")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0w5h4"]
+atlas = ExtResource("1_5l4w1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_seore"]
+atlas = ExtResource("1_5l4w1")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r8eyu"]
+atlas = ExtResource("1_5l4w1")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7mekc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fr63")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xufbn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kknv7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbr65")
+}],
+"loop": true,
+"name": &"break",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x8rgf")
+}],
+"loop": true,
+"name": &"fourth",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0w5h4")
+}],
+"loop": true,
+"name": &"full",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_seore")
+}],
+"loop": true,
+"name": &"second",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r8eyu")
+}],
+"loop": true,
+"name": &"third",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c34n8"]
+size = Vector2(32, 33)
+
+[node name="Brick" type="RigidBody2D"]
+lock_rotation = true
+freeze = true
+freeze_mode = 1
+script = ExtResource("1_0fr63")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_7mekc")
+animation = &"full"
+autoplay = "full"
+
+[node name="HitBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+scale = Vector2(2, 2)
+shape = SubResource("RectangleShape2D_c34n8")
+debug_color = Color(0.551828, 0.562652, 0.0487693, 0.42)

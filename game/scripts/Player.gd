@@ -1,12 +1,11 @@
 extends CharacterBody2D
 
+class_name Paddle
 var speed = 200
-var mouse_position = null
 var direction = 0 
 @onready var legs = $Legs
 @onready var body = $Body
 @onready var coffin = $Coffin
-
 
 
 func _physics_process(delta):

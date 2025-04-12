@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cvvob3lh8i4s8"]
 
-[ext_resource type="Script" uid="uid://btmx1ag8gurjy" path="res://scripts/DropZone.gd" id="1_bfmoc"]
+[ext_resource type="Script" uid="uid://tso7xt1vj5gm" path="res://scripts/DropZone.gd" id="1_bfmoc"]
 
 [node name="DropZone" type="Area2D"]
 collision_mask = 2

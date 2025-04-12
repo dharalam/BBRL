@@ -1,7 +1,9 @@
 extends Node
 
+@export var row_container: Node2D
 @onready var player = $"../Player"
 var ballScene = preload("res://scenes/Ball.tscn")
+var RowScene = preload("res://scenes/Row.tscn")
 var activeBalls = 1
 var remainingBalls = 3 
 var souls = 0
@@ -10,14 +12,19 @@ var souls = 0
 signal update_balls
 
 func _ready():
-	pass # Replace with function body.
+	print("RowScene loaded:", RowScene)
 
+	var row = RowScene.instantiate()
+	row_container.add_child(row)
+	row.position = Vector2(50, 0)  # Set start position
+	
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
-func ballDrop():
+func ballDrop():	
 	activeBalls = activeBalls - 1
 	if activeBalls == 0:
 		remainingBalls -= 1

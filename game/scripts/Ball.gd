@@ -20,9 +20,19 @@ func _physics_process(delta):
 	if flying:
 		var collosion_object = move_and_collide(move_velocity * speed * delta)
 		if collosion_object:
+			
+			#Bounce ball
 			var angle := move_velocity.angle_to_point(position)
 			self.rotation = angle
 			move_velocity = move_velocity.bounce(collosion_object.get_normal())
+			
+			#Get Collider
+			var obj = collosion_object.get_collider()
+			if obj is Brick:
+			#if obj.has_method("takeDamage"):
+				obj.takeDamage(2)
+			#print(obj.takeDamage(5))
+			
 	else:
 		position.x = player.position.x
 		if Input.is_action_just_pressed("active"):

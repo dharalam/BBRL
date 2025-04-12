@@ -7,7 +7,7 @@ func _ready() -> void:
 	for ball in range(reserve):
 		create_menu_item()
 		add_spacer(false)
-	print_tree_pretty()
+	#print_tree_pretty()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
