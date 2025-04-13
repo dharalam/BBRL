@@ -87,9 +87,27 @@ func _process(delta):
 	if Input.is_action_just_pressed("active"):
 		_handle_spacebar()
 
+func chargeActive():
+	print("charging active")
+	tsA = activeCD 
+	
 func useActive():
+	activeBalls = activeBalls + 1
+	spawn_extra_ball()
 	print("Using Active!\n")
+	
+func spawn_extra_ball():
+	for ball in ball_container.get_children():
+		if ball.isBallFlying():  # Or whatever your flying check method is
+			var new_ball = ballScene.instantiate()
+			new_ball.spawn_from_player = false  # Don't reset to paddle in _ready()
+			new_ball.position = ball.position   # Spawn at the flying ball's location
+			new_ball.move_velocity = ball.move_velocity  
+			new_ball.flying = true       # Launch immediately
+			ball_container.call_deferred("add_child", new_ball)
+			return  # Only spawn one extra ball
 
+	
 func _handle_spacebar(): 
 	if _all_balls_flying():
 		if tsA >= activeCD:

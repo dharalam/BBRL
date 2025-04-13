@@ -9,6 +9,7 @@ class_name Brick
 @onready var brickCharge: AnimatedSprite2D = $BrickCharge
 @onready var hit_box: CollisionShape2D = $HitBox
 var soulContainer
+var gm
 
 var sprite
 var maxhp = 8
@@ -48,6 +49,7 @@ func _ready():
 
 func _enter_tree() -> void:
 	soulContainer = get_tree().root.get_node("Game/SoulContainer")
+	gm = get_tree().root.get_node("Game/GameManager")
 
 func takeDamage(dmg:float): 
 	if type == brickTypes.BRICKBOMB or type == brickTypes.BRICKCHARGE:
@@ -92,7 +94,7 @@ func _on_brick_shop_animation_finished() -> void:
 	queue_free()
 
 func _on_brick_charge_animation_finished() -> void:
-	#TODO: charge the active
+	gm.chargeActive()
 	sprite.visible = false
 	queue_free()
 
