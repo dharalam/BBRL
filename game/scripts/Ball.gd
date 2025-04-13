@@ -4,6 +4,9 @@ class_name Ball
 var speed = 400
 var move_velocity = Vector2.ZERO
 var flying = false
+var auto_launch = false
+var spawn_from_player = true
+
 var damage = 500 
 @onready var player = get_tree().root.get_node("Game/Player")
 @onready var collision: CollisionShape2D = $Collision
@@ -12,10 +15,12 @@ var last_collider_id
 
 
 func _ready():
-	position.x = player.position.x
-	position.y = player.position.y - 75
-	move_velocity.x = 0
-	move_velocity.y = 0
+	if spawn_from_player: 
+		position = player.position + Vector2(0, -75)	
+		move_velocity = Vector2.ZERO
+	
+	if auto_launch:
+		launch_ball()
 	
 func _enter_tree() -> void:
 	gm = get_tree().root.get_node("Game/GameManager")
