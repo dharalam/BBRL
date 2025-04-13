@@ -30,7 +30,7 @@ func move_down(amount := 10, duration := 0.3):
 func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	print("bonk")
 	if body is Paddle:
-		gm.souls += curr_value
+		gm.souls = max(gm.souls + curr_value, 0)
 		queue_free()
 
 func _physics_process(delta: float) -> void:

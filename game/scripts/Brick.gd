@@ -89,6 +89,8 @@ func _on_brick_animation_finished() -> void:
 func _on_brick_shop_animation_finished() -> void:
 	#TODO: do shop things
 	sprite.visible = false
+	get_tree().paused = true
+	get_tree().root.get_node("Game/Shop").show()
 	queue_free()
 
 func _on_brick_charge_animation_finished() -> void:
