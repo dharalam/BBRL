@@ -21,7 +21,7 @@ var activeCD := 10.0 #seconds?
 var tsA := 0.0 #time since active
 
 var damageArr = [2, 4, 7, 14]
-var chanceArr = [100, 5, 8] #Shop, Bomb, Charge 
+var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge 
 
 var remainingBricks = BRICKS_PER_REGION
 var remainingRows = ROWS_PER_REGION 
