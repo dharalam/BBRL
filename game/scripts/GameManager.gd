@@ -5,11 +5,11 @@ extends Node
 
 const BRICKS_PER_REGION = 72
 const ROWS_PER_REGION = 12 
-enum powerTypes {NONE, MULTIBALL, FREEZE}
+enum powerTypes {NONE, MULTIBALL, FREEZE, SPEED}
 
-@onready var player = $"../Player"
 var ballScene = preload("res://scenes/Ball.tscn")
 var RowScene = preload("res://scenes/Row.tscn")
+@onready var player: Paddle = $"../Player"
 
 var activeBalls = 1
 var remainingBalls = 3 
@@ -18,9 +18,9 @@ var ballLevel = 0
 var currentLevel = 0 
 var souls = 0
 
-var activeCD := 10.0 #seconds?
+var activeCD := 5.0 #seconds?
 var tsA := 0.0 #time since active
-var currentPower = powerTypes.NONE
+var currentPower = powerTypes.SPEED
 
 var damageArr = [2, 4, 7, 14]
 var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge 
@@ -94,7 +94,18 @@ func charge_active():
 	tsA = activeCD 
 	
 func activate_freeze(): 
+	get_tree().paused = true
+	player.process_mode = Node.PROCESS_MODE_ALWAYS
+	print(player.can_process())
 	return
+	
+func activate_speed():
+	var oldspeed = player.temp_speed
+	player.speedup = true
+	player.speed = player.speed * 2
+	await get_tree().create_timer(2.0).timeout 
+	player.speed = oldspeed
+	player.speedup = true	
 	
 func activate_multiball():
 	activeBalls = activeBalls + 1
@@ -113,10 +124,11 @@ func spawn_extra_ball():
 			return  # Only spawn one extra ball
 
 	
-func _handle_spacebar(): 
+func _handle_spacebar(): 	
 	if _all_balls_flying():
 		if tsA < activeCD:
 			#provide feedback to the player for their active not being ready
+			print("Power not ready")
 			return
 		else:
 			tsA = 0.0
@@ -126,8 +138,13 @@ func _handle_spacebar():
 					return
 				powerTypes.MULTIBALL: 
 					activate_multiball()
+					print("multiball used!")
 				powerTypes.FREEZE:
-					return
+					activate_freeze()
+					print("freeze used!")
+				powerTypes.SPEED:
+					activate_speed()
+					print("speed used")
 				_:
 					return
 	else:

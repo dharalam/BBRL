@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://c2cvyew83yaw8"]
+[gd_scene load_steps=5 format=3 uid="uid://de7hx2bqaieo5"]
 
 [ext_resource type="Texture2D" uid="uid://cqv71owpp7vgm" path="res://assets/bbrl_skeleton_assets.png" id="1_lx5au"]
-[ext_resource type="Script" uid="uid://c5vind1ajvfh6" path="res://scripts/shop.gd" id="1_xfvoa"]
+[ext_resource type="Script" path="res://scripts/shop.gd" id="1_xfvoa"]
 [ext_resource type="PackedScene" uid="uid://c1k1cl2oh08n1" path="res://scenes/SoulsUI.tscn" id="2_1l46r"]
-[ext_resource type="Script" uid="uid://c7cqyl3vmw4ux" path="res://scripts/ShopButton.gd" id="3_032fp"]
+[ext_resource type="Script" path="res://scripts/ShopButton.gd" id="3_032fp"]
 
 [node name="Shop" type="CanvasLayer"]
 process_mode = 2
