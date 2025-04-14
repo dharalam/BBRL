@@ -9,6 +9,8 @@ enum powerTypes {NONE, MULTIBALL, FREEZE, SPEED, LIGHTNING}
 
 var ballScene = preload("res://scenes/Ball.tscn")
 var RowScene = preload("res://scenes/Row.tscn")
+
+@onready var vboxr: VBoxContainer = $"../Souls Container"
 @onready var player: Paddle = $"../Player"
 
 var activeBalls = 1
@@ -20,7 +22,7 @@ var souls = 0
 
 var activeCD := 5.0 #seconds?
 var tsA := 0.0 #time since active
-var currentPower = powerTypes.LIGHTNING
+var currentPower = powerTypes.FREEZE
 
 var damageArr = [2, 4, 7, 14]
 var chanceArr = [-20, 5, 8] #Shop, Bomb, Charge 
@@ -114,12 +116,15 @@ func activate_lightning():
 			
 	for index in indices:
 		bricks[index].break_brick()
+		
+	tsA = 0.0
 
 
 func activate_freeze(): 
-	get_tree().paused = true
-	player.process_mode = Node.PROCESS_MODE_ALWAYS
-	print(player.can_process())
+	vboxr.pause_timer()
+	await get_tree().create_timer(5.0).timeout
+	vboxr.resume_timer()
+	tsA = 0.0
 	return
 	
 func activate_speed():
@@ -129,11 +134,13 @@ func activate_speed():
 	await get_tree().create_timer(2.0).timeout 
 	player.speed = oldspeed
 	player.speedup = true
+	tsA = 0.0
 	
 func activate_multiball():
 	activeBalls = activeBalls + 1
 	spawn_extra_ball()
 	print("Using Active!\n")
+	tsA = 0.0
 	
 func spawn_extra_ball():
 	for ball in ball_container.get_children():
@@ -154,7 +161,6 @@ func _handle_spacebar():
 			print("Power not ready")
 			return
 		else:
-			tsA = 0.0
 			match currentPower:
 				powerTypes.NONE:
 					#provide feedback to the player that they have no active 
@@ -200,4 +206,3 @@ func ballDrop():
 			print(remainingBalls)
 			var instance = ballScene.instantiate()
 			ball_container.call_deferred("add_child", instance)
-		

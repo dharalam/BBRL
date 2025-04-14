@@ -33,32 +33,11 @@ func _process(delta):
 		legs.play("standing")
 	else: 
 		legs.play("running")
-		
-		
-	if get_tree().is_paused():
-		# move paddle manually during pause
-		var cap_shape = hitbox.shape as CapsuleShape2D
-		var hitbox_half_width = (cap_shape.height + 2 * cap_shape.radius) / 4
 
-		var left_border = get_tree().root.get_node("Game/WorldBoundries/LeftBorder").global_position.x
-		var right_border = get_tree().root.get_node("Game/WorldBoundries/RightBorder").global_position.x
-		
-		var new_x = global_position.x + direction * speed * delta
-		global_position.x = clamp(new_x, left_border + hitbox_half_width, right_border - hitbox_half_width)
-		
-		if Input.is_action_just_pressed("active"):
-			get_tree().paused = false
-			process_mode = Node.PROCESS_MODE_INHERIT	
+	if direction:
+		linear_velocity.x = direction * speed
 	else:
-		# normal RigidBody movement
-		if direction:
-			linear_velocity.x = direction * speed
-		else:
-			linear_velocity.x = move_toward(linear_velocity.x, 0, speed)
-	#if direction:
-	#	linear_velocity.x = direction * speed
-	#else:
-	#	linear_velocity.x = move_toward(linear_velocity.x, 0, speed)
+		linear_velocity.x = move_toward(linear_velocity.x, 0, speed)
 
 
 func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:

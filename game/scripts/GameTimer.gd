@@ -1,6 +1,6 @@
 extends Node
 @onready var timer: Timer = $Timer
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animated_sprite_2d: AnimatedSprite2D = $Hourglass
 
 func get_current_animation_length(animated_sprite: AnimatedSprite2D = animated_sprite_2d) -> float:
 	var current_animation_name = animated_sprite.animation
