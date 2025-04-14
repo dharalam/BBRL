@@ -29,7 +29,7 @@ var cd_reduction = 1.0
 var current_Power = powerTypes.SPEED
 
 var damageArr = [2, 4, 7, 14]
-var chanceArr = [-20, 5, 8] #Shop, Bomb, Charge 
+var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge 
 
 var remainingBricks = BRICKS_PER_REGION
 var remainingRows = ROWS_PER_REGION 
@@ -44,16 +44,16 @@ func set_upgrades():
 	# set ball attributes
 	ballLevel = tiers[-1][levels[-1]]
 	ballSpeed = tiers[upgradables.BSPEED][0] * (tiers[upgradables.BSPEED][levels[upgradables.BSPEED]] if levels[upgradables.BSPEED] > 0 else 1) 
-	ballSize = tiers[upgradables.BSIZE][0] * (tiers[upgradables.BSIZE][levels[upgradables.BSIZE]] if levels[upgradables.BSIZE] > 0 else 1) 
+	ballSize = tiers[upgradables.BSIZE][levels[upgradables.BSIZE]]
 	for ball in ball_container.get_children():
 		ball.speed = ballSpeed
 		ball.set_scale(Vector2(ballSize, ballSize))
 	
 	# set player attributes
 	player.speed = tiers[upgradables.PSPEED][0] * (tiers[upgradables.PSPEED][levels[upgradables.PSPEED]] if levels[upgradables.PSPEED] > 0 else 1)
-	var playerScale = tiers[upgradables.PSIZE][0] * (tiers[upgradables.PSIZE][levels[upgradables.PSIZE]] if levels[upgradables.PSIZE] > 0 else 1) 
-	player.get_child(2).set_scale(Vector2(playerScale, playerScale)) # coffin
-	player.get_child(3).set_scale(Vector2(playerScale, playerScale)) # hitbox
+	var playerScale = tiers[upgradables.PSIZE][levels[upgradables.PSIZE]] 
+	player.coffin.set_scale(Vector2(playerScale, playerScale)) # coffin
+	player.hitbox.set_scale(Vector2(playerScale, playerScale)) # hitbox
 
 	# block drop chances
 	chanceArr[1] = tiers[upgradables.BOMB][0] + (tiers[upgradables.BOMB][levels[upgradables.BOMB]] if levels[upgradables.BOMB] > 0 else 0) 
