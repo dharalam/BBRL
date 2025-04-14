@@ -6,21 +6,27 @@ extends Node
 const BRICKS_PER_REGION = 36
 const ROWS_PER_REGION = 6 
 enum powerTypes {NONE, MULTIBALL, FREEZE, SPEED, LIGHTNING}
+enum upgradables {BSPEED, PSPEED, BSIZE, PSIZE, BOMB, CHARGE, CYCLES, ACTIVE}
 
 var ballScene = preload("res://scenes/Ball.tscn")
 var RowScene = preload("res://scenes/Row.tscn")
 @onready var player: Paddle = $"../Player"
+@onready var shop: Shop = $"../Shop"
+@onready var souls_container: VBoxContainer = $"../Souls Container"
 
 var activeBalls = 1
 var remainingBalls = 3 
 var ballLevel = 0
+var ballSpeed = 400
+var ballSize = 1.0
 
-var currentLevel = 0 
+var currentLevel = 0
 var souls = 0
 
-var activeCD := 5.0 #seconds?
-var tsA := 0.0 #time since active
-var currentPower = powerTypes.LIGHTNING
+var active_cd := 5.0 #seconds?
+var tsa := 0.0 #time since active
+var cd_reduction = 1.0
+var current_Power = powerTypes.SPEED
 
 var damageArr = [2, 4, 7, 14]
 var chanceArr = [-20, 5, 8] #Shop, Bomb, Charge 
@@ -31,6 +37,35 @@ var remainingRows = ROWS_PER_REGION
 signal update_balls
 signal game_over
 
+func set_upgrades():
+	var levels = shop.upgrades
+	var tiers = shop.tiers
+	
+	# set ball attributes
+	ballLevel = tiers[-1][levels[-1]]
+	ballSpeed = tiers[upgradables.BSPEED][0] * (tiers[upgradables.BSPEED][levels[upgradables.BSPEED]] if levels[upgradables.BSPEED] > 0 else 1) 
+	ballSize = tiers[upgradables.BSIZE][0] * (tiers[upgradables.BSIZE][levels[upgradables.BSIZE]] if levels[upgradables.BSIZE] > 0 else 1) 
+	for ball in ball_container.get_children():
+		ball.speed = ballSpeed
+		ball.set_scale(Vector2(ballSize, ballSize))
+	
+	# set player attributes
+	player.speed = tiers[upgradables.PSPEED][0] * (tiers[upgradables.PSPEED][levels[upgradables.PSPEED]] if levels[upgradables.PSPEED] > 0 else 1)
+	var playerScale = tiers[upgradables.PSIZE][0] * (tiers[upgradables.PSIZE][levels[upgradables.PSIZE]] if levels[upgradables.PSIZE] > 0 else 1) 
+	player.get_child(2).set_scale(Vector2(playerScale, playerScale)) # coffin
+	player.get_child(3).set_scale(Vector2(playerScale, playerScale)) # hitbox
+
+	# block drop chances
+	chanceArr[1] = tiers[upgradables.BOMB][0] + (tiers[upgradables.BOMB][levels[upgradables.BOMB]] if levels[upgradables.BOMB] > 0 else 0) 
+	chanceArr[2] = tiers[upgradables.CHARGE][0] + (tiers[upgradables.CHARGE][levels[upgradables.CHARGE]] if levels[upgradables.CHARGE] > 0 else 0) 
+	
+	# progress bar speed
+	var block_bar = souls_container.item_refs[1].get_child(0)
+	block_bar.max_value = tiers[upgradables.CYCLES][levels[upgradables.CHARGE]]
+	cd_reduction = tiers[upgradables.ACTIVE][levels[upgradables.ACTIVE]]
+	print(levels)
+	
+	
 func create_row():
 	#Move all existing row downs
 	var rows_to_manage = row_container.get_children()
@@ -86,13 +121,13 @@ func _ready():
 	create_row()
 	
 func _process(delta):
-	tsA = tsA + delta
+	tsa = tsa + delta
 	if Input.is_action_just_pressed("active"):
 		_handle_spacebar()
 
 func charge_active():
 	print("Active Charged")
-	tsA = activeCD 
+	tsa = active_cd 
 	
 func activate_lightning():
 	var rows = row_container.get_children()
@@ -143,19 +178,21 @@ func spawn_extra_ball():
 			new_ball.position = ball.position   # Spawn at the flying ball's location
 			new_ball.move_velocity = ball.move_velocity  
 			new_ball.flying = true       # Launch immediately
+			new_ball.speed = ballSpeed
+			new_ball.set_scale(Vector2(ballSize, ballSize))
 			ball_container.call_deferred("add_child", new_ball)
 			return  # Only spawn one extra ball
 
 	
 func _handle_spacebar(): 	
 	if _all_balls_flying():
-		if tsA < activeCD:
+		if tsa < active_cd*cd_reduction:
 			#provide feedback to the player for their active not being ready
 			print("Power not ready")
 			return
 		else:
-			tsA = 0.0
-			match currentPower:
+			tsa = 0.0
+			match current_Power:
 				powerTypes.NONE:
 					#provide feedback to the player that they have no active 
 					return
@@ -199,5 +236,6 @@ func ballDrop():
 			update_balls.emit()
 			print(remainingBalls)
 			var instance = ballScene.instantiate()
+			instance.speed = ballSpeed
+			instance.set_scale(Vector2(ballSize, ballSize))
 			ball_container.call_deferred("add_child", instance)
-		

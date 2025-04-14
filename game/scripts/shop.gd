@@ -27,7 +27,7 @@ var names = {
 	refreshables.ACTIVE: "Active Skill Charge Time"
 }
 
-var costs_and_tiers = {
+var costs = {
 	-1: {1: 5, 2: 10, 3: 15}, #ball damage
 	refreshables.BSPEED: {1: 3, 2: 5, 3: 7},
 	refreshables.PSPEED: {1: 5, 2: 7, 3: 9},
@@ -37,6 +37,18 @@ var costs_and_tiers = {
 	refreshables.CHARGE: {1: 3, 2: 6, 3: 9},
 	refreshables.CYCLES: {1: 10, 2: 15},
 	refreshables.ACTIVE: {1: 5, 2: 10, 3: 15}
+}
+
+var tiers = {
+	-1: {0: 0, 1: 1, 2: 2, 3: 3}, #ball damage
+	refreshables.BSPEED: {0: 400, 1: 1.2, 2: 1.5, 3: 1.7},
+	refreshables.PSPEED: {0: 250, 1: 1.5, 2: 1.7, 3: 1.9},
+	refreshables.BSIZE: {0: 1.0, 1: 1.4, 2: 1.8, 3: 2.2},
+	refreshables.PSIZE: {0: 1.0, 1: 1.25, 2: 1.5, 3: 2},
+	refreshables.BOMB: {0: 5, 1: 2, 2: 4, 3: 6, 4: 8, 5: 10},
+	refreshables.CHARGE: {0: 8, 1: 3, 2: 6, 3: 9},
+	refreshables.CYCLES: {0: 2.0, 1: 3.0, 2: 4.0},
+	refreshables.ACTIVE: {0: 1.0, 1: 0.75, 2: 0.5, 3: 0.25}
 }
 
 var upgrades = {
@@ -60,7 +72,7 @@ func _enter_tree() -> void:
 func get_available_upgrades() -> Array:
 	var retarr = []
 	for item in upgrades.keys():
-		if upgrades[item] < costs_and_tiers[item].size():
+		if upgrades[item] < costs[item].size():
 			retarr.append(item)
 	return retarr
 	
@@ -77,7 +89,7 @@ func sample_without_replacement(items, num_samples):
 
 func refresh_shop() -> void:
 	var available_upgrades = get_available_upgrades()
-	ball_damage_button.text = "Buy: " + str(costs_and_tiers[-1][(upgrades[-1])+1])
+	ball_damage_button.text = "Buy: " + str(costs[-1][(upgrades[-1])+1])
 	refresh_button.text = "Buy: " + str((2**num_refresh)+1)
 	rand3 = sample_without_replacement(available_upgrades, 3)
 	for i in range(rand_upgrade_panels.size()):
@@ -85,28 +97,28 @@ func refresh_shop() -> void:
 		var name = rand_upgrade_panels[i].get_node("randUpgradeName")
 		name.text = names[upgrade]
 		var buy_button = rand_upgrade_panels[i].get_node("randUpgradeButton"+str(i+1))
-		buy_button.text = "Buy: " + str(costs_and_tiers[upgrade][(upgrades[upgrade])+1])
+		buy_button.text = "Buy: " + str(costs[upgrade][(upgrades[upgrade])+1])
 
 func _on_rand_upgrade_button_1_pressed() -> void:
 	var upgrade = rand3[0]
-	gm.souls = gm.souls - costs_and_tiers[upgrade][(upgrades[upgrade])+1]
+	gm.souls = gm.souls - costs[upgrade][(upgrades[upgrade])+1]
 	upgrades[upgrade] += 1
 	var buy_button = rand_upgrade_panels[0].get_node("randUpgradeButton1")
-	buy_button.text = "Buy: " + str(costs_and_tiers[upgrade][(upgrades[upgrade])+1])
+	buy_button.text = "Buy: " + str(costs[upgrade][(upgrades[upgrade])+1])
 
 func _on_rand_upgrade_button_2_pressed() -> void:
 	var upgrade = rand3[1]
-	gm.souls = gm.souls - costs_and_tiers[upgrade][(upgrades[upgrade])+1]
+	gm.souls = gm.souls - costs[upgrade][(upgrades[upgrade])+1]
 	upgrades[upgrade] += 1
 	var buy_button = rand_upgrade_panels[1].get_node("randUpgradeButton2")
-	buy_button.text = "Buy: " + str(costs_and_tiers[upgrade][(upgrades[upgrade])+1])
+	buy_button.text = "Buy: " + str(costs[upgrade][(upgrades[upgrade])+1])
 
 func _on_rand_upgrade_button_3_pressed() -> void:
 	var upgrade = rand3[2]
-	gm.souls = gm.souls - costs_and_tiers[upgrade][(upgrades[upgrade])+1]
+	gm.souls = gm.souls - costs[upgrade][(upgrades[upgrade])+1]
 	upgrades[upgrade] += 1
 	var buy_button = rand_upgrade_panels[2].get_node("randUpgradeButton3")
-	buy_button.text = "Buy: " + str(costs_and_tiers[upgrade][(upgrades[upgrade])+1])
+	buy_button.text = "Buy: " + str(costs[upgrade][(upgrades[upgrade])+1])
 
 func _on_active_skill_button_pressed() -> void:
 	pass # Replace with function body.
@@ -118,10 +130,13 @@ func _on_refresh_button_pressed() -> void:
 
 func _on_exit_shop_pressed() -> void:
 	$".".hide()
+	gm.set_upgrades()
 	get_tree().paused = false
 
 func _on_ball_damage_button_pressed() -> void:
-	var cost = costs_and_tiers[-1][upgrades[-1]]
+	upgrades[-1] += 1
+	gm.ballLevel = tiers[-1][upgrades[-1]]
+	var cost = costs[-1][upgrades[-1]]
 	gm.souls = gm.souls - cost
 		
 func _on_visibility_changed() -> void:
