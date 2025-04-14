@@ -3,9 +3,9 @@ extends Node
 @export var row_container: Node2D
 @export var ball_container: Node2D
 
-const BRICKS_PER_REGION = 72
-const ROWS_PER_REGION = 12 
-enum powerTypes {NONE, MULTIBALL, FREEZE, SPEED}
+const BRICKS_PER_REGION = 36
+const ROWS_PER_REGION = 6 
+enum powerTypes {NONE, MULTIBALL, FREEZE, SPEED, LIGHTNING}
 
 var ballScene = preload("res://scenes/Ball.tscn")
 var RowScene = preload("res://scenes/Row.tscn")
@@ -20,10 +20,10 @@ var souls = 0
 
 var activeCD := 5.0 #seconds?
 var tsA := 0.0 #time since active
-var currentPower = powerTypes.SPEED
+var currentPower = powerTypes.LIGHTNING
 
 var damageArr = [2, 4, 7, 14]
-var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge 
+var chanceArr = [-20, 5, 8] #Shop, Bomb, Charge 
 
 var remainingBricks = BRICKS_PER_REGION
 var remainingRows = ROWS_PER_REGION 
@@ -53,11 +53,12 @@ func create_row():
 	
 	#Check if a shop spawn, if not increase odds on next row 
 	var rand := randi() % 100
+	print("Shop Chance: " + str(chanceArr[0])) 
 	if rand < chanceArr[0]:
 		row.shopRow = true
-		chanceArr[0] = -10 #negative odds prevent back to back shop spawns
+		chanceArr[0] = -20 #negative odds prevent back to back shop spawns
 	else:
-		chanceArr[0] = chanceArr[0] + 15 
+		chanceArr[0] = chanceArr[0] + 25 
 		
 	#Set the chance of bombs/charges, and the number of bricks in the row
 	row.bombChance = chanceArr[1] 
@@ -93,6 +94,28 @@ func charge_active():
 	print("Active Charged")
 	tsA = activeCD 
 	
+func activate_lightning():
+	var rows = row_container.get_children()
+	var bricks := []
+	
+	#iterates over all the rows and puts all their children into one array
+	for row in rows:
+		bricks.append_array(row.get_children())
+		
+	var count = round(bricks.size() * randf_range(0.2, 0.3)) #random percent of bricks
+	if count < 1:
+		count = 1
+	
+	var indices := [] 
+	while indices.size() < count:
+		var index = randi_range(0, bricks.size()-1)
+		if index not in indices:
+			indices.append(index)
+			
+	for index in indices:
+		bricks[index].break_brick()
+
+
 func activate_freeze(): 
 	get_tree().paused = true
 	player.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -105,7 +128,7 @@ func activate_speed():
 	player.speed = player.speed * 2
 	await get_tree().create_timer(2.0).timeout 
 	player.speed = oldspeed
-	player.speedup = true	
+	player.speedup = true
 	
 func activate_multiball():
 	activeBalls = activeBalls + 1
@@ -145,6 +168,8 @@ func _handle_spacebar():
 				powerTypes.SPEED:
 					activate_speed()
 					print("speed used")
+				powerTypes.LIGHTNING:
+					activate_lightning()
 				_:
 					return
 	else:
@@ -176,20 +201,3 @@ func ballDrop():
 			var instance = ballScene.instantiate()
 			ball_container.call_deferred("add_child", instance)
 		
-		
-func getBallLevel():
-	return ballLevel
-
-func increaseBallLevel():
-	ballLevel = ballLevel + 1
-
-func increaseBombChance():
-	chanceArr[1] = chanceArr[1] + 2
-
-func increaseChargeChance():
-	chanceArr[2] = chanceArr[2] + 3 
-	
-func setActivatePower(power):
-	currentPower = power
-	
-	

@@ -59,7 +59,6 @@ func spawn_bricks():
 	
 func _on_brick_removed():
 	brick_count -= 1
-	print(brick_count)
 	if brick_count <= 0:
 		call_deferred("queue_free")
 		

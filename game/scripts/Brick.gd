@@ -72,20 +72,17 @@ func take_damage(dmg:float):
 func break_brick():
 	hit_box.disabled = true
 	sprite.play("break")
-	randomize()
+
+
+func _on_brick_animation_finished() -> void:
+	sprite.visible = false
 	var drop_soul = randf()
 	if drop_soul <= 1.0:
 		var soul_scene = load("res://scenes/Soul.tscn")
 		var soul = soul_scene.instantiate()
 		soulContainer.add_child(soul)
-		print($".".global_position)
-		print($".".position)
 		soul.position = $".".global_position
 		soul.position.x -= 90
-
-
-func _on_brick_animation_finished() -> void:
-	sprite.visible = false
 	queue_free()
 
 func _on_brick_shop_animation_finished() -> void:

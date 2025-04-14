@@ -4,6 +4,7 @@ var animations = {0: "standard_soul", 1: "halo_soul", 2: "angry_soul"}
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 var gm
 var curr_value: int
+var speed = 10
 
 func _enter_tree() -> void:
 	gm = get_tree().root.get_node("Game/GameManager")
@@ -20,7 +21,7 @@ func _ready() -> void:
 	else:
 		animated_sprite_2d.play(animations.get(2))
 		curr_value = -1
-
+	speed = randi_range(7,13)
 func move_down(amount := 10, duration := 0.3):
 	var tween := create_tween()
 	tween.set_trans(Tween.TRANS_SINE)
@@ -28,10 +29,9 @@ func move_down(amount := 10, duration := 0.3):
 	tween.tween_property(self, "position", self.position + Vector2(0, amount), duration)
 
 func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
-	print("bonk")
 	if body is Paddle:
 		gm.souls = max(gm.souls + curr_value, 0)
 		queue_free()
 
 func _physics_process(delta: float) -> void:
-	move_down()
+	move_down(speed)
