@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://c384k402a5pfi"]
+
+[ext_resource type="Script" uid="uid://dqvy6q1n3jrmh" path="res://scripts/ActiveSkill.gd" id="1_mh1x8"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_mh1x8")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
