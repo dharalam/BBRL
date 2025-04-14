@@ -10,6 +10,8 @@ enum upgradables {BSPEED, PSPEED, BSIZE, PSIZE, BOMB, CHARGE, CYCLES, ACTIVE}
 
 var ballScene = preload("res://scenes/Ball.tscn")
 var RowScene = preload("res://scenes/Row.tscn")
+
+@onready var vboxr: VBoxContainer = $"../Souls Container"
 @onready var player: Paddle = $"../Player"
 @onready var shop: Shop = $"../Shop"
 @onready var souls_container: VBoxContainer = $"../Souls Container"
@@ -23,10 +25,11 @@ var ballSize = 1.0
 var currentLevel = 0
 var souls = 0
 
+
+var cd_reduction = 1.0
 var active_cd := 5.0 #seconds?
 var tsa := 0.0 #time since active
-var cd_reduction = 1.0
-var current_Power = powerTypes.SPEED
+var current_Power = powerTypes.FREEZE
 
 var damageArr = [2, 4, 7, 14]
 var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge 
@@ -149,12 +152,15 @@ func activate_lightning():
 			
 	for index in indices:
 		bricks[index].break_brick()
+		
+	tsa = 0.0
 
 
 func activate_freeze(): 
-	get_tree().paused = true
-	player.process_mode = Node.PROCESS_MODE_ALWAYS
-	print(player.can_process())
+	vboxr.pause_timer()
+	await get_tree().create_timer(5.0).timeout
+	vboxr.resume_timer()
+	tsa = 0.0
 	return
 	
 func activate_speed():
@@ -164,11 +170,13 @@ func activate_speed():
 	await get_tree().create_timer(2.0).timeout 
 	player.speed = oldspeed
 	player.speedup = true
+	tsa = 0.0
 	
 func activate_multiball():
 	activeBalls = activeBalls + 1
 	spawn_extra_ball()
 	print("Using Active!\n")
+	tsa = 0.0
 	
 func spawn_extra_ball():
 	for ball in ball_container.get_children():
@@ -191,7 +199,6 @@ func _handle_spacebar():
 			print("Power not ready")
 			return
 		else:
-			tsa = 0.0
 			match current_Power:
 				powerTypes.NONE:
 					#provide feedback to the player that they have no active 
