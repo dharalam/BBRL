@@ -46,11 +46,11 @@ func _physics_process(delta):
 			#Get Collider
 			var obj = collision_object.get_collider()
 			if obj is Brick:
-				obj.takeDamage(gm.damageArr[gm.ballLevel])
+				obj.take_damage(gm.damageArr[gm.ballLevel])
 	else:
 		position.x = player.position.x
 			
-func isBallFlying():
+func is_ball_flying():
 	return flying
 
 func ballCollision(collider) -> Vector2:

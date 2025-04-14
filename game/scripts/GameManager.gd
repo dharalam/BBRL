@@ -5,6 +5,7 @@ extends Node
 
 const BRICKS_PER_REGION = 72
 const ROWS_PER_REGION = 12 
+enum powerTypes {NONE, MULTIBALL, FREEZE}
 
 @onready var player = $"../Player"
 var ballScene = preload("res://scenes/Ball.tscn")
@@ -19,6 +20,7 @@ var souls = 0
 
 var activeCD := 10.0 #seconds?
 var tsA := 0.0 #time since active
+var currentPower = powerTypes.NONE
 
 var damageArr = [2, 4, 7, 14]
 var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge 
@@ -87,18 +89,21 @@ func _process(delta):
 	if Input.is_action_just_pressed("active"):
 		_handle_spacebar()
 
-func chargeActive():
-	print("charging active")
+func charge_active():
+	print("Active Charged")
 	tsA = activeCD 
 	
-func useActive():
+func activate_freeze(): 
+	return
+	
+func activate_multiball():
 	activeBalls = activeBalls + 1
 	spawn_extra_ball()
 	print("Using Active!\n")
 	
 func spawn_extra_ball():
 	for ball in ball_container.get_children():
-		if ball.isBallFlying():  # Or whatever your flying check method is
+		if ball.is_ball_flying():  
 			var new_ball = ballScene.instantiate()
 			new_ball.spawn_from_player = false  # Don't reset to paddle in _ready()
 			new_ball.position = ball.position   # Spawn at the flying ball's location
@@ -110,23 +115,33 @@ func spawn_extra_ball():
 	
 func _handle_spacebar(): 
 	if _all_balls_flying():
-		if tsA >= activeCD:
-			tsA = 0.0
-			useActive()
+		if tsA < activeCD:
+			#provide feedback to the player for their active not being ready
+			return
 		else:
-			print("active not ready yet")
+			tsA = 0.0
+			match currentPower:
+				powerTypes.NONE:
+					#provide feedback to the player that they have no active 
+					return
+				powerTypes.MULTIBALL: 
+					activate_multiball()
+				powerTypes.FREEZE:
+					return
+				_:
+					return
 	else:
 		print("launching balls")
 		launch_ball_if_needed()
 
 func launch_ball_if_needed():
 	for ball in ball_container.get_children():
-		if not ball.isBallFlying():
+		if not ball.is_ball_flying():
 			ball.launch_ball()	
 	
 func _all_balls_flying() -> bool:
 	for ball in ball_container.get_children():
-		if not ball.isBallFlying():
+		if not ball.is_ball_flying():
 			return false
 	return true
 	
@@ -156,5 +171,8 @@ func increaseBombChance():
 
 func increaseChargeChance():
 	chanceArr[2] = chanceArr[2] + 3 
+	
+func setActivatePower(power):
+	currentPower = power
 	
 	

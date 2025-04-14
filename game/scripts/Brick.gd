@@ -51,13 +51,13 @@ func _enter_tree() -> void:
 	soulContainer = get_tree().root.get_node("Game/SoulContainer")
 	gm = get_tree().root.get_node("Game/GameManager")
 
-func takeDamage(dmg:float): 
+func take_damage(dmg:float): 
 	if type == brickTypes.BRICKBOMB or type == brickTypes.BRICKCHARGE:
 		dmg = 1
 		
 	hp = hp - dmg
 	if hp <= 0:
-		breakBrick()
+		break_brick()
 		return 
 	var perhp = hp / maxhp
 	
@@ -69,7 +69,7 @@ func takeDamage(dmg:float):
 		sprite.play("fourth") 
 	
 	
-func breakBrick():
+func break_brick():
 	hit_box.disabled = true
 	sprite.play("break")
 	randomize()
@@ -96,7 +96,7 @@ func _on_brick_shop_animation_finished() -> void:
 	queue_free()
 
 func _on_brick_charge_animation_finished() -> void:
-	gm.chargeActive()
+	gm.charge_active()
 	sprite.visible = false
 	queue_free()
 
