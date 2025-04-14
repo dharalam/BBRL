@@ -25,9 +25,11 @@ var ballSize = 1.0
 var currentLevel = 0
 var souls = 0
 
-var activeCD := 5.0 #seconds?
-var tsA := 0.0 #time since active
-var currentPower = powerTypes.FREEZE
+
+var cd_reduction = 1.0
+var active_cd := 5.0 #seconds?
+var tsa := 0.0 #time since active
+var current_Power = powerTypes.FREEZE
 
 var damageArr = [2, 4, 7, 14]
 var chanceArr = [-20, 5, 8] #Shop, Bomb, Charge 
@@ -151,14 +153,14 @@ func activate_lightning():
 	for index in indices:
 		bricks[index].break_brick()
 		
-	tsA = 0.0
+	tsa = 0.0
 
 
 func activate_freeze(): 
 	vboxr.pause_timer()
 	await get_tree().create_timer(5.0).timeout
 	vboxr.resume_timer()
-	tsA = 0.0
+	tsa = 0.0
 	return
 	
 func activate_speed():
@@ -168,13 +170,13 @@ func activate_speed():
 	await get_tree().create_timer(2.0).timeout 
 	player.speed = oldspeed
 	player.speedup = true
-	tsA = 0.0
+	tsa = 0.0
 	
 func activate_multiball():
 	activeBalls = activeBalls + 1
 	spawn_extra_ball()
 	print("Using Active!\n")
-	tsA = 0.0
+	tsa = 0.0
 	
 func spawn_extra_ball():
 	for ball in ball_container.get_children():
