@@ -2,7 +2,7 @@ extends CanvasLayer
 class_name Shop
 
 var gm
-enum refreshables {BSPEED, PSPEED, BSIZE, PSIZE, BOMB, CHARGE, CYCLES, ACTIVE}
+enum refreshables {BSPEED, PSPEED, BSIZE, PSIZE, BOMB, CHARGE, CYCLES, ACTIVE, POWER}
 @onready var ball_damage_button: Button = $PanelContainer/MarginContainer/VBoxContainer/PermanentUpgrades/BallDamageButton
 @onready var rand_upgrade_1: HBoxContainer = $PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randUpgrade1
 @onready var rand_upgrade_2: HBoxContainer = $PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randUpgrade2
@@ -121,6 +121,7 @@ func _on_rand_upgrade_button_3_pressed() -> void:
 	buy_button.text = "Buy: " + str(costs[upgrade][(upgrades[upgrade])+1])
 
 func _on_active_skill_button_pressed() -> void:
+	
 	pass # Replace with function body.
 
 func _on_refresh_button_pressed() -> void:

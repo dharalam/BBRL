@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://de7hx2bqaieo5"]
+[gd_scene load_steps=4 format=3 uid="uid://de7hx2bqaieo5"]
 
-[ext_resource type="Texture2D" uid="uid://cqv71owpp7vgm" path="res://assets/bbrl_skeleton_assets.png" id="1_lx5au"]
 [ext_resource type="Script" uid="uid://c5vind1ajvfh6" path="res://scripts/shop.gd" id="1_xfvoa"]
 [ext_resource type="PackedScene" uid="uid://c1k1cl2oh08n1" path="res://scenes/SoulsUI.tscn" id="2_1l46r"]
-[ext_resource type="Script" path="res://scripts/ShopButton.gd" id="3_032fp"]
+[ext_resource type="Script" uid="uid://c7cqyl3vmw4ux" path="res://scripts/ShopButton.gd" id="3_032fp"]
 
 [node name="Shop" type="CanvasLayer"]
 process_mode = 2
@@ -143,12 +142,8 @@ layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randActiveSkill/VBoxContainer/HBoxContainer"]
-position = Vector2(0, 2)
-texture = ExtResource("1_lx5au")
-centered = false
-region_enabled = true
-region_rect = Rect2(33, 33, 30, 30)
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randActiveSkill/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 
 [node name="ActiveSkillName" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randActiveSkill/VBoxContainer"]
 layout_mode = 2
