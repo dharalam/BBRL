@@ -29,7 +29,7 @@ var souls = 0
 var cd_reduction = 1.0
 var active_cd := 5.0 #seconds?
 var tsa := 0.0 #time since active
-var current_power = power_types.MULTIBALL
+var current_Power = powerTypes.NONE
 
 var damageArr = [2, 4, 7, 14]
 var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge 
@@ -157,9 +157,9 @@ func activate_lightning():
 
 
 func activate_freeze(): 
-	vboxr.pause_timer()
+	souls_container.pause_timer()
 	await get_tree().create_timer(5.0).timeout
-	vboxr.resume_timer()
+	souls_container.resume_timer()
 	tsa = 0.0
 	return
 	
