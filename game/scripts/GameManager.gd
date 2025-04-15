@@ -29,7 +29,7 @@ var souls = 0
 var cd_reduction = 1.0
 var active_cd := 5.0 #seconds?
 var tsa := 0.0 #time since active
-var current_Power = powerTypes.NONE
+var current_power = power_types.NONE
 
 var damageArr = [2, 4, 7, 14]
 var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge 
