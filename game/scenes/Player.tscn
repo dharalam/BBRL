@@ -74,7 +74,7 @@ region_rect = Rect2(0, 0, 128, 32)
 position = Vector2(0, -31)
 rotation = 1.5708
 scale = Vector2(0.552559, 0.515805)
-polygon = PackedVector2Array(-27.9996, 106, -32, 0.00011584, -28.0004, -106, -16.0005, -126, 29.9995, -126, 30.0005, 126, -13.9995, 126)
+polygon = PackedVector2Array(-27.9996, 106, -38.005, 0.000147381, -28.0004, -106, -16.0005, -126, 29.9995, -126, 30.0005, 126, -13.9995, 126)
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 

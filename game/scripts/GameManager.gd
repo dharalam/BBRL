@@ -32,7 +32,7 @@ var tsa := 0.0 #time since active
 var current_power = power_types.NONE
 
 var damageArr = [2, 4, 7, 14]
-var chanceArr = [100, 5, 8] #Shop, Bomb, Charge 
+var chanceArr = [120, 5, 8] #Shop, Bomb, Charge 
 
 var remainingBricks = BRICKS_PER_REGION
 var remainingRows = ROWS_PER_REGION 
@@ -67,8 +67,12 @@ func set_upgrades():
 	var block_bar = souls_container.get_node("BlockBar/TextureProgressBar")
 	block_bar.max_value = tiers[upgradables.CYCLES][levels[upgradables.CHARGE]]
 	cd_reduction = tiers[upgradables.ACTIVE][levels[upgradables.ACTIVE]]
-	print(levels)
+	#print(levels)
 	
+func win():
+	var victory_scene = preload("res://scenes/Victory.tscn")
+	get_tree().change_scene_to_packed(victory_scene)
+	return 
 	
 func create_row():
 	#Move all existing row downs
@@ -92,7 +96,6 @@ func create_row():
 	
 	#Check if a shop spawn, if not increase odds on next row 
 	var rand := randi() % 100
-	print("Shop Chance: " + str(chanceArr[0])) 
 	if rand < chanceArr[0]:
 		row.shopRow = true
 		chanceArr[0] = -20 #negative odds prevent back to back shop spawns
@@ -111,13 +114,15 @@ func create_row():
 	remainingRows = remainingRows - 1
 	
 	if remainingRows == 0:
-		#if you hit the end of a region without seeing a shop in the last 5 rows you guarentee get one
+		#if you hit the end of a region without seeing a shop in the last 3 rows you guarentee get one
 		if chanceArr[0] >= 50:
 			chanceArr[0] = 100 
 		remainingRows = ROWS_PER_REGION
 		remainingBricks = BRICKS_PER_REGION
 		if currentLevel < 2: 
 			currentLevel = currentLevel + 1 
+		else:
+			win() 
 		#Also update the background?
 
 func _ready():
@@ -130,7 +135,6 @@ func _process(delta):
 		_handle_spacebar()
 
 func charge_active():
-	print("Active Charged")
 	tsa = active_cd 
 	
 func activate_lightning():
@@ -193,7 +197,7 @@ func spawn_extra_ball():
 			return  # Only spawn one extra ball
 
 	
-func _handle_spacebar(): 	
+func _handle_spacebar(): 
 	if _all_balls_flying():
 		if tsa < active_cd*cd_reduction:
 			#provide feedback to the player for their active not being ready

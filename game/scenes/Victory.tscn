@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfhnj55wvyhh1"]
+
+[ext_resource type="Script" uid="uid://bk0b45d27thag" path="res://scenes/victory.gd" id="1_sdctl"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_sdctl")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 275.0
+offset_right = 693.0
+offset_bottom = 440.0
+theme_override_colors/font_color = Color(0.301213, 0.649204, 0.184263, 1)
+theme_override_font_sizes/font_size = 120
+text = "Victory!"
+
+[node name="Again" type="Button" parent="."]
+layout_mode = 0
+offset_left = 394.0
+offset_top = 425.0
+offset_right = 453.0
+offset_bottom = 456.0
+text = "Again?"
+
+[node name="Quit" type="Button" parent="."]
+layout_mode = 0
+offset_left = 482.0
+offset_top = 425.0
+offset_right = 524.0
+offset_bottom = 456.0
+text = "Quit"
+
+[connection signal="pressed" from="Again" to="." method="_on_again_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]

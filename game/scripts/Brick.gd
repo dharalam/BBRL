@@ -86,7 +86,6 @@ func _on_brick_animation_finished() -> void:
 	queue_free()
 
 func _on_brick_shop_animation_finished() -> void:
-	#TODO: do shop things
 	sprite.visible = false
 	get_tree().paused = true
 	get_tree().root.get_node("Game/Shop").show()
@@ -98,6 +97,10 @@ func _on_brick_charge_animation_finished() -> void:
 	queue_free()
 
 func _on_brick_bomb_animation_finished() -> void:
-	#TODO: damage nearby bricks
+	var neighbors = $BlastArea.get_overlapping_bodies()
+	for neighbor in neighbors:
+		if neighbor != self and neighbor is Brick:
+			neighbor.take_damage(gm.damageArr[gm.ballLevel] * 3)
+
 	sprite.visible = false
 	queue_free()
