@@ -179,7 +179,7 @@ func _on_active_skill_button_pressed() -> void:
 	skill_button.text = "Out of Stock"
 	active_skill_bar.change_power(rand_active)
 	powers_available[rand_active] = true
-	gm.current_power = rand_active
+	gm.set_power(rand_active)
 	
 
 func _on_refresh_button_pressed() -> void:

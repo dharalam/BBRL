@@ -235,7 +235,7 @@ func _all_balls_flying() -> bool:
 func set_power(new): #wait will this function even work if the scene is paused?
 	current_power = new 
 	tsa = 0 #swapping power prevents immediate use
-	match current_power: #TODO: update UI to show new power
+	match current_power: 
 		power_types.MULTIBALL:
 			active_cd = 45.0  
 			return
