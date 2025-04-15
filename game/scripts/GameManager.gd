@@ -5,7 +5,7 @@ extends Node
 
 const BRICKS_PER_REGION = 36
 const ROWS_PER_REGION = 6 
-enum powerTypes {NONE, MULTIBALL, FREEZE, SPEED, LIGHTNING}
+enum power_types {NONE, MULTIBALL, FREEZE, SPEED, LIGHTNING}
 enum upgradables {BSPEED, PSPEED, BSIZE, PSIZE, BOMB, CHARGE, CYCLES, ACTIVE}
 
 var ballScene = preload("res://scenes/Ball.tscn")
@@ -29,7 +29,7 @@ var souls = 0
 var cd_reduction = 1.0
 var active_cd := 5.0 #seconds?
 var tsa := 0.0 #time since active
-var current_Power = powerTypes.FREEZE
+var current_power = power_types.MULTIBALL
 
 var damageArr = [2, 4, 7, 14]
 var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge 
@@ -199,20 +199,20 @@ func _handle_spacebar():
 			print("Power not ready")
 			return
 		else:
-			match current_Power:
-				powerTypes.NONE:
+			match current_power:
+				power_types.NONE:
 					#provide feedback to the player that they have no active 
 					return
-				powerTypes.MULTIBALL: 
+				power_types.MULTIBALL: 
 					activate_multiball()
 					print("multiball used!")
-				powerTypes.FREEZE:
+				power_types.FREEZE:
 					activate_freeze()
 					print("freeze used!")
-				powerTypes.SPEED:
+				power_types.SPEED:
 					activate_speed()
 					print("speed used")
-				powerTypes.LIGHTNING:
+				power_types.LIGHTNING:
 					activate_lightning()
 				_:
 					return
@@ -230,6 +230,23 @@ func _all_balls_flying() -> bool:
 		if not ball.is_ball_flying():
 			return false
 	return true
+	
+func set_power(new): #wait will this function even work if the scene is paused?
+	current_power = new 
+	tsa = 0 #swapping power prevents immediate use
+	match current_power: #TODO: update UI to show new power
+		power_types.MULTIBALL:
+			active_cd = 45.0  
+			return
+		power_types.FREEZE:
+			active_cd = 30 
+			return
+		power_types.SPEED:
+			active_cd = 25 
+			return
+		power_types.LIGHTNING:
+			active_cd = 50 
+			return
 	
 func ballDrop():
 	activeBalls = activeBalls - 1

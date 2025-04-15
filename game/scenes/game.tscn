@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://mh2uf0bdcire" path="res://scripts/VBoxL.gd" id="3_aug50"]
 [ext_resource type="PackedScene" uid="uid://cvvob3lh8i4s8" path="res://scenes/DropZone.tscn" id="3_yeh0f"]
 [ext_resource type="Script" uid="uid://cgbiqop2dyrpj" path="res://scripts/GameManager.gd" id="4_2n8hy"]
-[ext_resource type="Script" uid="uid://dr1jha222skaj" path="res://scripts/game_over.gd" id="7_u5sy4"]
+[ext_resource type="Script" path="res://scripts/game_over.gd" id="7_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://de7hx2bqaieo5" path="res://scenes/shop.tscn" id="8_gee14"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vpaku"]
