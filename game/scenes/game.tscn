@@ -10,9 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://dki0xk6do3u6d" path="res://scenes/BlockBar.tscn" id="5_kvuet"]
 [ext_resource type="PackedScene" uid="uid://c1k1cl2oh08n1" path="res://scenes/SoulsUI.tscn" id="6_trtic"]
 [ext_resource type="PackedScene" uid="uid://c384k402a5pfi" path="res://scenes/ActiveSkillBar.tscn" id="7_ir15t"]
-[ext_resource type="Script" path="res://scripts/game_over.gd" id="7_u5sy4"]
-[ext_resource type="Texture2D" uid="uid://60vn7bnstxhr" path="res://assets/ready.png" id="8_2rd6h"]
+[ext_resource type="Script" uid="uid://dr1jha222skaj" path="res://scripts/game_over.gd" id="7_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://de7hx2bqaieo5" path="res://scenes/shop.tscn" id="8_gee14"]
+[ext_resource type="Script" uid="uid://hbfai883l52n" path="res://scripts/pause_menu.gd" id="13_kvuet"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vpaku"]
 
@@ -190,7 +190,64 @@ text = "Quit Game"
 [node name="Shop" parent="." instance=ExtResource("8_gee14")]
 visible = false
 
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("13_kvuet")
+
+[node name="PanelContainer" type="PanelContainer" parent="PauseMenu"]
+offset_left = 278.0
+offset_top = 214.0
+offset_right = 693.0
+offset_bottom = 394.0
+metadata/_edit_group_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="PauseMenu/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="PauseMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Pause"
+horizontal_alignment = 1
+
+[node name="StatsSettings" type="HBoxContainer" parent="PauseMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="StatsUpgrades" type="Button" parent="PauseMenu/PanelContainer/MarginContainer/VBoxContainer/StatsSettings"]
+custom_minimum_size = Vector2(150, 32)
+layout_mode = 2
+text = "Stats & Upgrades"
+
+[node name="Settings" type="Button" parent="PauseMenu/PanelContainer/MarginContainer/VBoxContainer/StatsSettings"]
+custom_minimum_size = Vector2(150, 32)
+layout_mode = 2
+text = "Settings"
+
+[node name="Fill Box" type="VBoxContainer" parent="PauseMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ResumeQuit" type="HBoxContainer" parent="PauseMenu/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Resume" type="Button" parent="PauseMenu/PanelContainer/MarginContainer/VBoxContainer/ResumeQuit"]
+custom_minimum_size = Vector2(150, 32)
+layout_mode = 2
+text = "Resume"
+
+[node name="QuitGame" type="Button" parent="PauseMenu/PanelContainer/MarginContainer/VBoxContainer/ResumeQuit"]
+custom_minimum_size = Vector2(150, 32)
+layout_mode = 2
+text = "Quit Game"
+
 [connection signal="game_over" from="GameManager" to="GameOver" method="_on_game_manager_game_over"]
 [connection signal="update_balls" from="GameManager" to="Reserve Container" method="_on_game_manager_update_balls"]
 [connection signal="pressed" from="GameOver/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Continue?" to="GameOver" method="_on_continue_pressed"]
 [connection signal="pressed" from="GameOver/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Quit Game" to="GameOver" method="_on_quit_game_pressed"]
+[connection signal="pressed" from="PauseMenu/PanelContainer/MarginContainer/VBoxContainer/StatsSettings/StatsUpgrades" to="PauseMenu" method="_on_stats_upgrades_pressed"]
+[connection signal="pressed" from="PauseMenu/PanelContainer/MarginContainer/VBoxContainer/StatsSettings/Settings" to="PauseMenu" method="_on_settings_pressed"]
+[connection signal="pressed" from="PauseMenu/PanelContainer/MarginContainer/VBoxContainer/ResumeQuit/Resume" to="PauseMenu" method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMenu/PanelContainer/MarginContainer/VBoxContainer/ResumeQuit/QuitGame" to="PauseMenu" method="_on_quit_game_pressed"]
