@@ -32,6 +32,7 @@ func change_power(index: int):
 	power_atlas.region = regions[index]
 	texture_progress_bar.texture_progress = power_atlas
 	texture_progress_bar.texture_under = power_atlas
+	gm.set_power(index)
 	texture_progress_bar.max_value = (gm.active_cd * gm.cd_reduction)
 
 func _process(delta: float) -> void:

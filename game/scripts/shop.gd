@@ -66,11 +66,11 @@ var tiers = {
 	-1: {0: 0, 1: 1, 2: 2, 3: 3}, #ball damage
 	refreshables.BSPEED: {0: 400, 1: 1.2, 2: 1.5, 3: 1.7},
 	refreshables.PSPEED: {0: 250, 1: 1.5, 2: 1.7, 3: 1.9},
-	refreshables.BSIZE: {0: 1.0, 1: 2.0, 2: 1.8, 3: 2.2},
+	refreshables.BSIZE: {0: 1.0, 1: 2.0, 2: 2.5, 3: 3.0},
 	refreshables.PSIZE: {0: 1.0, 1: 1.25, 2: 1.5, 3: 2},
 	refreshables.BOMB: {0: 5, 1: 2, 2: 4, 3: 6, 4: 8, 5: 10},
 	refreshables.CHARGE: {0: 8, 1: 3, 2: 6, 3: 9},
-	refreshables.CYCLES: {0: 2.0, 1: 3.0, 2: 4.0},
+	refreshables.CYCLES: {0: 1.0, 1: 2.0, 2: 3.0},
 	refreshables.ACTIVE: {0: 1.0, 1: 0.75, 2: 0.5, 3: 0.25}
 }
 
@@ -115,7 +115,9 @@ func get_available_actives() -> Array:
 	return retarr
 	
 func sample_without_replacement(items, num_samples):
+	randomize()
 	var shuffled_items = items.duplicate() # Create a copy to avoid modifying the original
+	shuffled_items.erase(-1)
 	shuffled_items.shuffle()
 	var samples = []
 	for i in range(num_samples):
@@ -172,14 +174,14 @@ func _on_active_skill_button_pressed() -> void:
 	power_atlas.region = regions[powers.NONE]
 	power_display.texture = power_atlas
 	if gm.current_power != powers.NONE:
-		powers_available[gm.current_power] = false
+		powers_available[gm.current_power] = true
 	var skill_name = rand_active_skill.get_node("VBoxContainer/ActiveSkillName")
 	skill_name.text = "Skill Bought"
 	var skill_button = rand_active_skill.get_node("ActiveSkillButton")
 	skill_button.text = "Out of Stock"
-	active_skill_bar.change_power(rand_active)
-	powers_available[rand_active] = true
-	gm.set_power(rand_active)
+	powers_available[rand_active] = false
+	active_skill_bar.change_power(rand_active) # also sets active
+	print(powers_available)
 	
 
 func _on_refresh_button_pressed() -> void:
@@ -192,6 +194,7 @@ func _on_exit_shop_pressed() -> void:
 	active_bought = false
 	var skill_button = rand_active_skill.get_node("ActiveSkillButton")
 	skill_button.disabled = false
+	skill_button.text = "Buy: 3"
 	get_tree().paused = false
 	gm.set_upgrades()
 
