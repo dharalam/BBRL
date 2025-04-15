@@ -562,6 +562,8 @@ autoplay = "full"
 frame = 3
 frame_progress = 1.0
 
+[node name="Area2D" type="Area2D" parent="."]
+
 [connection signal="animation_finished" from="Brick1" to="." method="_on_brick_animation_finished"]
 [connection signal="animation_finished" from="Brick2" to="." method="_on_brick_animation_finished"]
 [connection signal="animation_finished" from="Brick3" to="." method="_on_brick_animation_finished"]

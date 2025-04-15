@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://drswddmaafxxh"]
+[gd_scene load_steps=15 format=3 uid="uid://drb5bx71qlh5a"]
 
 [ext_resource type="PackedScene" uid="uid://xava7rd2hipt" path="res://scenes/Player.tscn" id="1_tacwk"]
 [ext_resource type="PackedScene" uid="uid://c2ptd6oa7qwex" path="res://scenes/Ball.tscn" id="2_ot2aj"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dki0xk6do3u6d" path="res://scenes/BlockBar.tscn" id="5_kvuet"]
 [ext_resource type="PackedScene" uid="uid://c1k1cl2oh08n1" path="res://scenes/SoulsUI.tscn" id="6_trtic"]
 [ext_resource type="PackedScene" uid="uid://c384k402a5pfi" path="res://scenes/ActiveSkillBar.tscn" id="7_ir15t"]
-[ext_resource type="Script" uid="uid://dr1jha222skaj" path="res://scripts/game_over.gd" id="7_u5sy4"]
+[ext_resource type="Script" path="res://scripts/game_over.gd" id="7_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://de7hx2bqaieo5" path="res://scenes/shop.tscn" id="8_gee14"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vpaku"]

@@ -171,15 +171,15 @@ func _on_active_skill_button_pressed() -> void:
 	active_bought = true
 	power_atlas.region = regions[powers.NONE]
 	power_display.texture = power_atlas
-	if gm.current_Power != powers.NONE:
-		powers_available[gm.current_Power] = false
+	if gm.current_power != powers.NONE:
+		powers_available[gm.current_power] = false
 	var skill_name = rand_active_skill.get_node("VBoxContainer/ActiveSkillName")
 	skill_name.text = "Skill Bought"
 	var skill_button = rand_active_skill.get_node("ActiveSkillButton")
 	skill_button.text = "Out of Stock"
 	active_skill_bar.change_power(rand_active)
 	powers_available[rand_active] = true
-	gm.current_Power = rand_active
+	gm.current_power = rand_active
 	
 
 func _on_refresh_button_pressed() -> void:
