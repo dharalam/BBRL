@@ -32,6 +32,7 @@ var regions = {
 }
 
 var power_names = {
+	powers.NONE: "None",
 	powers.MULTIBALL: "Multiball",
 	powers.FREEZE: "Freeze",
 	powers.SPEEDUP: "Speed-Up",
