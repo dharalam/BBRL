@@ -7,7 +7,6 @@ var flying = false
 var auto_launch = false
 var spawn_from_player = true
 
-var damage = 500 
 @onready var player = get_tree().root.get_node("Game/Player")
 @onready var collision: CollisionShape2D = $Collision
 var gm

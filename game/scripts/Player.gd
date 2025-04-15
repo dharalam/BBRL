@@ -8,7 +8,7 @@ var direction = 0
 @onready var legs = $Legs
 @onready var bodySprite = $Body
 @onready var coffin = $Coffin
-@onready var hitbox: CollisionShape2D = $Hitbox
+@onready var hitbox: CollisionPolygon2D = $Hitbox
 
 
 func _ready() -> void:

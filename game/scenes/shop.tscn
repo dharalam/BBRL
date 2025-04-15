@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://de7hx2bqaieo5"]
+[gd_scene load_steps=5 format=3 uid="uid://de7hx2bqaieo5"]
 
 [ext_resource type="Script" uid="uid://c5vind1ajvfh6" path="res://scripts/shop.gd" id="1_xfvoa"]
 [ext_resource type="PackedScene" uid="uid://c1k1cl2oh08n1" path="res://scenes/SoulsUI.tscn" id="2_1l46r"]
-[ext_resource type="Script" path="res://scripts/ShopButton.gd" id="3_032fp"]
+[ext_resource type="Script" uid="uid://c7cqyl3vmw4ux" path="res://scripts/ShopButton.gd" id="3_032fp"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_1l46r"]
 
 [node name="Shop" type="CanvasLayer"]
 process_mode = 2
@@ -142,8 +144,11 @@ layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randActiveSkill/VBoxContainer/HBoxContainer"]
+[node name="PowerDisplay" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randActiveSkill/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_1l46r")
+expand_mode = 1
 
 [node name="ActiveSkillName" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randActiveSkill/VBoxContainer"]
 layout_mode = 2
@@ -157,7 +162,7 @@ layout_mode = 2
 [node name="ActiveSkillButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randActiveSkill"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Buy: 0"
+text = "Buy: 3"
 script = ExtResource("3_032fp")
 
 [node name="VSeparator" type="VSeparator" parent="PanelContainer/MarginContainer/VBoxContainer/Refreshables"]

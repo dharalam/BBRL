@@ -40,9 +40,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ocivw"]
-radius = 24.0
-height = 264.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v6fml"]
+size = Vector2(66, 11)
 
 [node name="Player" type="RigidBody2D"]
 position = Vector2(0, -38)
@@ -52,7 +51,6 @@ physics_material_override = SubResource("PhysicsMaterial_v6fml")
 gravity_scale = 0.0
 can_sleep = false
 lock_rotation = true
-freeze_mode = 1
 script = ExtResource("1_prd8q")
 
 [node name="Legs" type="AnimatedSprite2D" parent="."]
@@ -72,13 +70,19 @@ texture = ExtResource("1_bhgkm")
 region_enabled = true
 region_rect = Rect2(0, 0, 128, 32)
 
-[node name="Hitbox" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="CollisionPolygon2D" parent="."]
 position = Vector2(0, -31)
 rotation = 1.5708
-scale = Vector2(0.5, 0.5)
-shape = SubResource("CapsuleShape2D_ocivw")
+scale = Vector2(0.552559, 0.515805)
+polygon = PackedVector2Array(-27.9996, 106, -32, 0.00011584, -28.0004, -106, -16.0005, -126, 29.9995, -126, 30.0005, 126, -13.9995, 126)
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 33)
+shape = SubResource("RectangleShape2D_v6fml")
+one_way_collision = true
+one_way_collision_margin = 32.3
 
 [connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
 [connection signal="body_shape_exited" from="." to="." method="_on_body_shape_exited"]

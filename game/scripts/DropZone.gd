@@ -8,5 +8,6 @@ func _on_body_entered(body):
 		gm.ballDrop()
 	if body is Brick:
 		gm.game_over.emit()
-	body.call_deferred("free")
+	if body is Ball or body is Brick or body is Soul:
+		body.call_deferred("free")
 	

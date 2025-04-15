@@ -3,6 +3,7 @@ class_name Shop
 
 var gm
 enum refreshables {BSPEED, PSPEED, BSIZE, PSIZE, BOMB, CHARGE, CYCLES, ACTIVE, POWER}
+enum powers {NONE, MULTIBALL, FREEZE, SPEEDUP, LIGHTNING}
 @onready var ball_damage_button: Button = $PanelContainer/MarginContainer/VBoxContainer/PermanentUpgrades/BallDamageButton
 @onready var rand_upgrade_1: HBoxContainer = $PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randUpgrade1
 @onready var rand_upgrade_2: HBoxContainer = $PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randUpgrade2
@@ -10,12 +11,34 @@ enum refreshables {BSPEED, PSPEED, BSIZE, PSIZE, BOMB, CHARGE, CYCLES, ACTIVE, P
 @onready var rand_active_skill: HBoxContainer = $PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randActiveSkill
 @onready var rand_upgrade_panels = [rand_upgrade_1, rand_upgrade_2, rand_upgrade_3]
 @onready var refresh_button: Button = $"PanelContainer/MarginContainer/VBoxContainer/Refreshables/Refresh Tab/RefreshButton"
+@onready var power_display: TextureRect = $PanelContainer/MarginContainer/VBoxContainer/Refreshables/VBoxContainer/randActiveSkill/VBoxContainer/HBoxContainer/PowerDisplay
+@onready var power_icons = preload("res://assets/powers.png")
 
 var num_refresh = 0
 var populated = false
+var active_bought = false
 var rand3
+var rand_active
+var active_skill_bar
 
-var names = {
+var power_atlas = AtlasTexture.new()
+
+var regions = {
+	powers.NONE: Rect2(0, 0, 32, 32),
+	powers.MULTIBALL: Rect2(32, 0, 32, 32),
+	powers.FREEZE: Rect2(64, 0, 32, 32),
+	powers.SPEEDUP: Rect2(96, 0, 32, 32),
+	powers.LIGHTNING: Rect2(128, 0, 32, 32)
+}
+
+var power_names = {
+	powers.MULTIBALL: "Multiball",
+	powers.FREEZE: "Freeze",
+	powers.SPEEDUP: "Speed-Up",
+	powers.LIGHTNING: "Lightning-in-a-Bottle"
+}
+
+var upgrade_names = {
 	-1: "Ball Damage", #ball damage
 	refreshables.BSPEED: "Ball Speed",
 	refreshables.PSPEED: "Paddle Speed",
@@ -43,7 +66,7 @@ var tiers = {
 	-1: {0: 0, 1: 1, 2: 2, 3: 3}, #ball damage
 	refreshables.BSPEED: {0: 400, 1: 1.2, 2: 1.5, 3: 1.7},
 	refreshables.PSPEED: {0: 250, 1: 1.5, 2: 1.7, 3: 1.9},
-	refreshables.BSIZE: {0: 1.0, 1: 1.4, 2: 1.8, 3: 2.2},
+	refreshables.BSIZE: {0: 1.0, 1: 2.0, 2: 1.8, 3: 2.2},
 	refreshables.PSIZE: {0: 1.0, 1: 1.25, 2: 1.5, 3: 2},
 	refreshables.BOMB: {0: 5, 1: 2, 2: 4, 3: 6, 4: 8, 5: 10},
 	refreshables.CHARGE: {0: 8, 1: 3, 2: 6, 3: 9},
@@ -63,17 +86,32 @@ var upgrades = {
 	refreshables.ACTIVE: 0
 }
 
+var powers_available = {
+	powers.MULTIBALL: true,
+	powers.FREEZE: true,
+	powers.SPEEDUP: true,
+	powers.LIGHTNING: true
+}
+
 func _ready() -> void:
 	$".".hide()
 
 func _enter_tree() -> void:
 	gm = get_tree().root.get_node("Game/GameManager")
+	active_skill_bar = get_tree().root.get_node("Game/Souls Container/ActiveSkillBar")
 
 func get_available_upgrades() -> Array:
 	var retarr = []
 	for item in upgrades.keys():
 		if upgrades[item] < costs[item].size():
 			retarr.append(item)
+	return retarr
+
+func get_available_actives() -> Array:
+	var retarr = []
+	for active in powers_available.keys():
+		if powers_available[active] == true:
+			retarr.append(active)
 	return retarr
 	
 func sample_without_replacement(items, num_samples):
@@ -88,16 +126,24 @@ func sample_without_replacement(items, num_samples):
 	return samples
 
 func refresh_shop() -> void:
+	power_atlas.set_atlas(power_icons)
 	var available_upgrades = get_available_upgrades()
+	var available_actives = get_available_actives()
 	ball_damage_button.text = "Buy: " + str(costs[-1][(upgrades[-1])+1])
-	refresh_button.text = "Buy: " + str((2**num_refresh)+1)
+	refresh_button.text = "Buy: " + str(int((pow(2, num_refresh))+1))
 	rand3 = sample_without_replacement(available_upgrades, 3)
+	rand_active = sample_without_replacement(available_actives, 1)[0]
 	for i in range(rand_upgrade_panels.size()):
 		var upgrade = rand3[i]
 		var name = rand_upgrade_panels[i].get_node("randUpgradeName")
-		name.text = names[upgrade]
+		name.text = upgrade_names[upgrade]
 		var buy_button = rand_upgrade_panels[i].get_node("randUpgradeButton"+str(i+1))
 		buy_button.text = "Buy: " + str(costs[upgrade][(upgrades[upgrade])+1])
+	if not active_bought:
+		var skill_name = rand_active_skill.get_node("VBoxContainer/ActiveSkillName")
+		skill_name.text = power_names[rand_active]
+		power_atlas.region = regions[rand_active]
+		power_display.set_texture(power_atlas)
 
 func _on_rand_upgrade_button_1_pressed() -> void:
 	var upgrade = rand3[0]
@@ -121,18 +167,33 @@ func _on_rand_upgrade_button_3_pressed() -> void:
 	buy_button.text = "Buy: " + str(costs[upgrade][(upgrades[upgrade])+1])
 
 func _on_active_skill_button_pressed() -> void:
+	gm.souls = gm.souls - 3
+	active_bought = true
+	power_atlas.region = regions[powers.NONE]
+	power_display.texture = power_atlas
+	if gm.current_Power != powers.NONE:
+		powers_available[gm.current_Power] = false
+	var skill_name = rand_active_skill.get_node("VBoxContainer/ActiveSkillName")
+	skill_name.text = "Skill Bought"
+	var skill_button = rand_active_skill.get_node("ActiveSkillButton")
+	skill_button.text = "Out of Stock"
+	active_skill_bar.change_power(rand_active)
+	powers_available[rand_active] = true
+	gm.current_Power = rand_active
 	
-	pass # Replace with function body.
 
 func _on_refresh_button_pressed() -> void:
-	gm.souls = gm.souls - (2**num_refresh)+1
+	gm.souls = gm.souls - int(pow(2, num_refresh)+1)
 	num_refresh += 1
 	refresh_shop()
 
 func _on_exit_shop_pressed() -> void:
 	$".".hide()
-	gm.set_upgrades()
+	active_bought = false
+	var skill_button = rand_active_skill.get_node("ActiveSkillButton")
+	skill_button.disabled = false
 	get_tree().paused = false
+	gm.set_upgrades()
 
 func _on_ball_damage_button_pressed() -> void:
 	upgrades[-1] += 1

@@ -1,4 +1,5 @@
 [gd_scene load_steps=11 format=3 uid="uid://drswddmaafxxh"]
+[gd_scene load_steps=15 format=3 uid="uid://drswddmaafxxh"]
 
 [ext_resource type="PackedScene" uid="uid://xava7rd2hipt" path="res://scenes/Player.tscn" id="1_tacwk"]
 [ext_resource type="PackedScene" uid="uid://c2ptd6oa7qwex" path="res://scenes/Ball.tscn" id="2_ot2aj"]
@@ -7,6 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://cvvob3lh8i4s8" path="res://scenes/DropZone.tscn" id="3_yeh0f"]
 [ext_resource type="Script" uid="uid://cgbiqop2dyrpj" path="res://scripts/GameManager.gd" id="4_2n8hy"]
 [ext_resource type="Script" path="res://scripts/game_over.gd" id="7_u5sy4"]
+[ext_resource type="PackedScene" uid="uid://cc7s6733snhd3" path="res://scenes/GameTimer.tscn" id="4_dinhu"]
+[ext_resource type="PackedScene" uid="uid://dki0xk6do3u6d" path="res://scenes/BlockBar.tscn" id="5_kvuet"]
+[ext_resource type="PackedScene" uid="uid://c1k1cl2oh08n1" path="res://scenes/SoulsUI.tscn" id="6_trtic"]
+[ext_resource type="PackedScene" uid="uid://c384k402a5pfi" path="res://scenes/ActiveSkillBar.tscn" id="7_ir15t"]
+[ext_resource type="Script" uid="uid://dr1jha222skaj" path="res://scripts/game_over.gd" id="7_u5sy4"]
+>>>>>>> Stashed changes
 [ext_resource type="PackedScene" uid="uid://de7hx2bqaieo5" path="res://scenes/shop.tscn" id="8_gee14"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vpaku"]
@@ -69,13 +76,42 @@ script = ExtResource("3_aug50")
 [node name="Souls Container" type="VBoxContainer" parent="."]
 z_index = 1
 custom_minimum_size = Vector2(128, 0)
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 0
 offset_left = 363.0
 offset_top = -535.0
 offset_right = 491.0
 offset_bottom = -535.0
+offset_bottom = -35.0
 alignment = 2
 script = ExtResource("2_s0nni")
+
+[node name="GameTimer" parent="Souls Container" instance=ExtResource("4_dinhu")]
+position = Vector2(0, -22)
+
+[node name="Spacer" type="Control" parent="Souls Container"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BlockBar" parent="Souls Container" instance=ExtResource("5_kvuet")]
+position = Vector2(-3, 154)
+
+[node name="Spacer2" type="Control" parent="Souls Container"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SoulsUI" parent="Souls Container" instance=ExtResource("6_trtic")]
+position = Vector2(-2, 86)
+
+[node name="Spacer3" type="Control" parent="Souls Container"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ActiveSkillBar" parent="Souls Container" instance=ExtResource("7_ir15t")]
+position = Vector2(32, 828)
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 2
@@ -89,8 +125,10 @@ color = Color(0.201527, 0.201527, 0.201527, 1)
 layout_mode = 2
 offset_left = 346.0
 offset_top = -582.0
+offset_top = -581.0
 offset_right = 442.0
 offset_bottom = 418.0
+offset_bottom = 419.0
 color = Color(0.201527, 0.201527, 0.201527, 1)
 
 [node name="Player" parent="." instance=ExtResource("1_tacwk")]

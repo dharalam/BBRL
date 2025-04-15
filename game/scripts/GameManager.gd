@@ -23,7 +23,7 @@ var ballSpeed = 400
 var ballSize = 1.0
 
 var currentLevel = 0
-var souls = 0
+var souls = 15
 
 
 var cd_reduction = 1.0
@@ -32,7 +32,7 @@ var tsa := 0.0 #time since active
 var current_power = power_types.NONE
 
 var damageArr = [2, 4, 7, 14]
-var chanceArr = [-10, 5, 8] #Shop, Bomb, Charge 
+var chanceArr = [100, 5, 8] #Shop, Bomb, Charge 
 
 var remainingBricks = BRICKS_PER_REGION
 var remainingRows = ROWS_PER_REGION 
@@ -54,16 +54,17 @@ func set_upgrades():
 	
 	# set player attributes
 	player.speed = tiers[upgradables.PSPEED][0] * (tiers[upgradables.PSPEED][levels[upgradables.PSPEED]] if levels[upgradables.PSPEED] > 0 else 1)
-	var playerScale = tiers[upgradables.PSIZE][levels[upgradables.PSIZE]] 
-	player.coffin.set_scale(Vector2(playerScale, playerScale)) # coffin
-	player.hitbox.set_scale(Vector2(playerScale, playerScale)) # hitbox
+	var playerScale = tiers[upgradables.PSIZE][levels[upgradables.PSIZE]]
+	var cur_scale = player.hitbox.scale.x 
+	player.coffin.set_scale(Vector2(playerScale, 1.0)) # coffin
+	player.hitbox.set_scale(Vector2(cur_scale, playerScale/2)) # hitbox
 
 	# block drop chances
 	chanceArr[1] = tiers[upgradables.BOMB][0] + (tiers[upgradables.BOMB][levels[upgradables.BOMB]] if levels[upgradables.BOMB] > 0 else 0) 
 	chanceArr[2] = tiers[upgradables.CHARGE][0] + (tiers[upgradables.CHARGE][levels[upgradables.CHARGE]] if levels[upgradables.CHARGE] > 0 else 0) 
 	
 	# progress bar speed
-	var block_bar = souls_container.item_refs[1].get_child(0)
+	var block_bar = souls_container.get_node("BlockBar/TextureProgressBar")
 	block_bar.max_value = tiers[upgradables.CYCLES][levels[upgradables.CHARGE]]
 	cd_reduction = tiers[upgradables.ACTIVE][levels[upgradables.ACTIVE]]
 	print(levels)
