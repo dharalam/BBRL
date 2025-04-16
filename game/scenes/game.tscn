@@ -1,6 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://drb5bx71qlh5a"]
+[gd_scene load_steps=18 format=3 uid="uid://drb5bx71qlh5a"]
 
 [ext_resource type="PackedScene" uid="uid://xava7rd2hipt" path="res://scenes/Player.tscn" id="1_tacwk"]
+[ext_resource type="Texture2D" uid="uid://c0n0v5r3d2g5d" path="res://assets/stage1.png" id="1_trtic"]
+[ext_resource type="Script" uid="uid://ccho2qdb75hd3" path="res://scripts/stage_texture_manager.gd" id="2_ir15t"]
 [ext_resource type="PackedScene" uid="uid://c2ptd6oa7qwex" path="res://scenes/Ball.tscn" id="2_ot2aj"]
 [ext_resource type="Script" uid="uid://d3qhppgllif00" path="res://scripts/VBoxR.gd" id="2_s0nni"]
 [ext_resource type="Script" uid="uid://mh2uf0bdcire" path="res://scripts/VBoxL.gd" id="3_aug50"]
@@ -27,6 +29,15 @@ offset_left = 557.0
 offset_top = 582.0
 offset_right = 557.0
 offset_bottom = 582.0
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -466.0
+offset_top = -584.0
+offset_right = 346.0
+offset_bottom = 416.0
+texture = ExtResource("1_trtic")
+script = ExtResource("2_ir15t")
 
 [node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("row_container", "ball_container")]
 unique_name_in_owner = true

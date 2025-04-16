@@ -15,6 +15,7 @@ var RowScene = preload("res://scenes/Row.tscn")
 @onready var player: Paddle = $"../Player"
 @onready var shop: Shop = $"../Shop"
 @onready var souls_container: VBoxContainer = $"../Souls Container"
+@onready var background: TextureRect = $"../Background"
 
 var activeBalls = 1
 var remainingBalls = 3 
@@ -124,6 +125,7 @@ func create_row():
 		else:
 			win() 
 		#Also update the background?
+		background.change_stage(currentLevel)
 
 func _ready():
 	randomize()
