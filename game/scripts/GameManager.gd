@@ -24,7 +24,7 @@ var ballSpeed = 400
 var ballSize = 1.0
 
 var currentLevel = 0
-var souls = 15
+var souls = 0
 
 
 var cd_reduction = 1.0
