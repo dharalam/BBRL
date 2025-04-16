@@ -120,9 +120,6 @@ size_flags_vertical = 3
 [node name="ActiveSkillBar" parent="Souls Container" instance=ExtResource("7_ir15t")]
 position = Vector2(32, 828)
 
-[node name="Ready" type="Sprite2D" parent="Souls Container/ActiveSkillBar"]
-texture = ExtResource("8_2rd6h")
-
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 2
 offset_left = -557.0
