@@ -5,9 +5,11 @@ var animations = {0: "standard_soul", 1: "halo_soul", 2: "angry_soul"}
 var gm
 var curr_value: int
 var speed = 10
+var player 
 
 func _enter_tree() -> void:
 	gm = get_tree().root.get_node("Game/GameManager")
+	player = get_tree().root.get_node("Game/Player")
 
 func _ready() -> void:
 	randomize()
@@ -35,3 +37,5 @@ func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, lo
 
 func _physics_process(delta: float) -> void:
 	move_down(speed)
+	#if player.position.y < self.position.y:
+	#	queue_free()

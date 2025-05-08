@@ -9,6 +9,8 @@ var spawn_from_player = true
 
 @onready var player = get_tree().root.get_node("Game/Player")
 @onready var collision: CollisionShape2D = $Collision
+@onready var ballstrike: AudioStreamPlayer2D = $Ballstrike
+
 var gm
 var last_collider_id
 
@@ -39,6 +41,7 @@ func _physics_process(delta):
 			#Bounce ball and update orientation
 			var angle := move_velocity.angle_to_point(position)
 			self.rotation = angle
+			ballstrike.play()
 			if collision_object is Paddle:
 				#move_velocity = paddle_bounce(collision_object)
 				move_velocity = move_velocity.bounce(collision.object.get_normal())

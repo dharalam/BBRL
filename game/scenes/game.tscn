@@ -1,8 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://drb5bx71qlh5a"]
+[gd_scene load_steps=22 format=3 uid="uid://drb5bx71qlh5a"]
 
 [ext_resource type="PackedScene" uid="uid://xava7rd2hipt" path="res://scenes/Player.tscn" id="1_tacwk"]
 [ext_resource type="Texture2D" uid="uid://c0n0v5r3d2g5d" path="res://assets/stage1.png" id="1_trtic"]
-[ext_resource type="Script" uid="uid://ccho2qdb75hd3" path="res://scripts/stage_texture_manager.gd" id="2_ir15t"]
+[ext_resource type="Script" path="res://scripts/stage_texture_manager.gd" id="2_ir15t"]
 [ext_resource type="PackedScene" uid="uid://c2ptd6oa7qwex" path="res://scenes/Ball.tscn" id="2_ot2aj"]
 [ext_resource type="Script" uid="uid://d3qhppgllif00" path="res://scripts/VBoxR.gd" id="2_s0nni"]
 [ext_resource type="Script" uid="uid://mh2uf0bdcire" path="res://scripts/VBoxL.gd" id="3_aug50"]
@@ -14,7 +14,11 @@
 [ext_resource type="PackedScene" uid="uid://c384k402a5pfi" path="res://scenes/ActiveSkillBar.tscn" id="7_ir15t"]
 [ext_resource type="Script" uid="uid://dr1jha222skaj" path="res://scripts/game_over.gd" id="7_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://de7hx2bqaieo5" path="res://scenes/shop.tscn" id="8_gee14"]
-[ext_resource type="Script" uid="uid://hbfai883l52n" path="res://scripts/pause_menu.gd" id="13_kvuet"]
+[ext_resource type="Script" path="res://scripts/pause_menu.gd" id="13_kvuet"]
+[ext_resource type="AudioStream" uid="uid://bowcw5i43ibki" path="res://assets/sounds/lightning.wav" id="16_45i86"]
+[ext_resource type="AudioStream" uid="uid://b3ipivjw8tav4" path="res://assets/sounds/freeze.wav" id="17_sv1m6"]
+[ext_resource type="AudioStream" uid="uid://23n8woyfej0h" path="res://assets/sounds/mulitball.wav" id="18_a8wo8"]
+[ext_resource type="AudioStream" uid="uid://h0qx5h7m64gr" path="res://assets/sounds/flame.wav" id="19_attvq"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vpaku"]
 
@@ -250,6 +254,20 @@ text = "Resume"
 custom_minimum_size = Vector2(150, 32)
 layout_mode = 2
 text = "Quit Game"
+
+[node name="PowerSounds" type="Node" parent="."]
+
+[node name="Lightning" type="AudioStreamPlayer2D" parent="PowerSounds"]
+stream = ExtResource("16_45i86")
+
+[node name="Freeze" type="AudioStreamPlayer2D" parent="PowerSounds"]
+stream = ExtResource("17_sv1m6")
+
+[node name="Multiball" type="AudioStreamPlayer2D" parent="PowerSounds"]
+stream = ExtResource("18_a8wo8")
+
+[node name="Speed" type="AudioStreamPlayer2D" parent="PowerSounds"]
+stream = ExtResource("19_attvq")
 
 [connection signal="game_over" from="GameManager" to="GameOver" method="_on_game_manager_game_over"]
 [connection signal="update_balls" from="GameManager" to="Reserve Container" method="_on_game_manager_update_balls"]

@@ -17,6 +17,12 @@ var RowScene = preload("res://scenes/Row.tscn")
 @onready var souls_container: VBoxContainer = $"../Souls Container"
 @onready var background: TextureRect = $"../Background"
 
+@onready var lightning_sound: AudioStreamPlayer2D = $"../PowerSounds/Lightning"
+@onready var freeze_sound: AudioStreamPlayer2D = $"../PowerSounds/Freeze"
+@onready var multiball_sound: AudioStreamPlayer2D = $"../PowerSounds/Multiball"
+@onready var speed_sound: AudioStreamPlayer2D = $"../PowerSounds/Speed"
+
+
 var activeBalls = 1
 var remainingBalls = 3 
 var ballLevel = 0
@@ -24,7 +30,7 @@ var ballSpeed = 400
 var ballSize = 1.0
 
 var currentLevel = 0
-var souls = 0
+var souls = 10
 
 
 var cd_reduction = 1.0
@@ -140,6 +146,7 @@ func charge_active():
 	tsa = active_cd 
 	
 func activate_lightning():
+	lightning_sound.play()
 	var rows = row_container.get_children()
 	var bricks := []
 	
@@ -164,6 +171,7 @@ func activate_lightning():
 
 
 func activate_freeze(): 
+	freeze_sound.play()
 	souls_container.pause_timer()
 	await get_tree().create_timer(5.0).timeout
 	souls_container.resume_timer()
@@ -171,6 +179,7 @@ func activate_freeze():
 	return
 	
 func activate_speed():
+	speed_sound.play()
 	var oldspeed = player.temp_speed
 	player.speedup = true
 	player.speed = player.speed * 2
@@ -180,6 +189,7 @@ func activate_speed():
 	tsa = 0.0
 	
 func activate_multiball():
+	multiball_sound.play()
 	activeBalls = activeBalls + 1
 	spawn_extra_ball()
 	print("Using Active!\n")

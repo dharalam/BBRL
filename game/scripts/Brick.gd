@@ -8,6 +8,9 @@ class_name Brick
 @onready var brickBomb: AnimatedSprite2D = $BrickBomb	
 @onready var brickCharge: AnimatedSprite2D = $BrickCharge
 @onready var hit_box: CollisionShape2D = $HitBox
+@onready var brick_break: AudioStreamPlayer2D = $BrickBreak
+
+
 var soulContainer
 var gm
 
@@ -71,6 +74,7 @@ func take_damage(dmg:float):
 	
 func break_brick():
 	hit_box.disabled = true
+	brick_break.play()
 	sprite.play("break")
 
 

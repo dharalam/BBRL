@@ -1,7 +1,8 @@
-[gd_scene load_steps=58 format=3 uid="uid://r84osgdnc4w0"]
+[gd_scene load_steps=59 format=3 uid="uid://r84osgdnc4w0"]
 
 [ext_resource type="Script" uid="uid://cr2ddvi8k6ww0" path="res://scripts/Brick.gd" id="1_0fr63"]
 [ext_resource type="Texture2D" uid="uid://cmi0xqvcgo6y6" path="res://assets/tombstones.png" id="1_5l4w1"]
+[ext_resource type="AudioStream" uid="uid://c4ls0umoo5w2n" path="res://assets/sounds/brickbreak.wav" id="3_xufbn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c34n8"]
 size = Vector2(32, 33)
@@ -574,6 +575,9 @@ position = Vector2(0, 4.5)
 scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_0fr63")
 debug_color = Color(0.939302, 0.0756973, 0.581107, 0.42)
+
+[node name="BrickBreak" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_xufbn")
 
 [connection signal="animation_finished" from="Brick1" to="." method="_on_brick_animation_finished"]
 [connection signal="animation_finished" from="Brick2" to="." method="_on_brick_animation_finished"]
