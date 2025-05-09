@@ -128,11 +128,17 @@ func sample_without_replacement(items, num_samples):
 			break # Stop if array becomes empty
 	return samples
 
+func check_if_max_upgrade(idx, button) -> void:
+	if upgrades[idx] == len(tiers[idx])-1:
+		button.text = "Out of Stock"
+	else:
+		button.text = "Buy: " + str(costs[idx][(upgrades[idx])+1])
+
 func refresh_shop() -> void:
 	power_atlas.set_atlas(power_icons)
 	var available_upgrades = get_available_upgrades()
 	var available_actives = get_available_actives()
-	ball_damage_button.text = "Buy: " + str(costs[-1][(upgrades[-1])+1])
+	check_if_max_upgrade(-1, ball_damage_button)
 	refresh_button.text = "Buy: " + str(int((pow(2, num_refresh))+1))
 	rand3 = sample_without_replacement(available_upgrades, 3)
 	rand_active = sample_without_replacement(available_actives, 1)[0]
@@ -141,33 +147,34 @@ func refresh_shop() -> void:
 		var name = rand_upgrade_panels[i].get_node("randUpgradeName")
 		name.text = upgrade_names[upgrade]
 		var buy_button = rand_upgrade_panels[i].get_node("randUpgradeButton"+str(i+1))
-		buy_button.text = "Buy: " + str(costs[upgrade][(upgrades[upgrade])+1])
+		check_if_max_upgrade(upgrade, buy_button)
 	if not active_bought:
 		var skill_name = rand_active_skill.get_node("VBoxContainer/ActiveSkillName")
 		skill_name.text = power_names[rand_active]
 		power_atlas.region = regions[rand_active]
 		power_display.set_texture(power_atlas)
 
+
 func _on_rand_upgrade_button_1_pressed() -> void:
 	var upgrade = rand3[0]
 	gm.souls = gm.souls - costs[upgrade][(upgrades[upgrade])+1]
 	upgrades[upgrade] += 1
 	var buy_button = rand_upgrade_panels[0].get_node("randUpgradeButton1")
-	buy_button.text = "Buy: " + str(costs[upgrade][(upgrades[upgrade])+1])
+	check_if_max_upgrade(upgrade, buy_button)
 
 func _on_rand_upgrade_button_2_pressed() -> void:
 	var upgrade = rand3[1]
 	gm.souls = gm.souls - costs[upgrade][(upgrades[upgrade])+1]
 	upgrades[upgrade] += 1
 	var buy_button = rand_upgrade_panels[1].get_node("randUpgradeButton2")
-	buy_button.text = "Buy: " + str(costs[upgrade][(upgrades[upgrade])+1])
+	check_if_max_upgrade(upgrade, buy_button)
 
 func _on_rand_upgrade_button_3_pressed() -> void:
 	var upgrade = rand3[2]
 	gm.souls = gm.souls - costs[upgrade][(upgrades[upgrade])+1]
 	upgrades[upgrade] += 1
 	var buy_button = rand_upgrade_panels[2].get_node("randUpgradeButton3")
-	buy_button.text = "Buy: " + str(costs[upgrade][(upgrades[upgrade])+1])
+	check_if_max_upgrade(upgrade, buy_button)
 
 func _on_active_skill_button_pressed() -> void:
 	gm.souls = gm.souls - 3
@@ -204,6 +211,8 @@ func _on_ball_damage_button_pressed() -> void:
 	gm.ballLevel = tiers[-1][upgrades[-1]]
 	var cost = costs[-1][upgrades[-1]]
 	gm.souls = gm.souls - cost
+	check_if_max_upgrade(-1, ball_damage_button)
+	
 		
 func _on_visibility_changed() -> void:
 	if visible:
