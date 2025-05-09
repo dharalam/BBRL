@@ -143,7 +143,7 @@ func _process(delta):
 		_handle_spacebar()
 
 func charge_active():
-	tsa = active_cd 
+	tsa = active_cd * cd_reduction
 	
 func activate_lightning():
 	lightning_sound.play()
